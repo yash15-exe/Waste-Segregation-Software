@@ -12,12 +12,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export default async function emailSender(receiver, text) {
+export default async function emailSender(receiver, subject, text) {
  
   const info = await transporter.sendMail({
     from: "testyash306@gmail.com",
     to: receiver,
-    subject: "EMAIL FROM JUNK MACHINE", 
+    subject: subject, 
     text: text,
   });
 
