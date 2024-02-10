@@ -249,7 +249,7 @@
        let currentTime = performance.now();               // Get the current time
        let elapsedTime = currentTime - startTime;         // Calculate elapsed time
        console.log("Elapsed time:", elapsedTime.toFixed(2), "milliseconds"); // Log elapsed time
-       if(elapsedTime>=last_time+2*interval_time) clearInterval(intervalId)     //checking time passed with the last time (adding a value for better margin)        
+       if(elapsedTime>=last_time+6*interval_time) clearInterval(intervalId)     //checking time passed with the last time (adding a value for better margin)        
 
       }
       
