@@ -185,6 +185,7 @@
         .attr("cy", 0)           //0
         .attr("r", 10)
         .attr("fill", switchColor)
+        
 
         .transition()
         .duration((d,i)=>{ return total_animation_time[i]}) //0-300seconds [or 3000ms :) ] range  ---CAN BE REGULAR INTERVAL WITH [animation_time becomes time for whole completion]  
@@ -222,6 +223,7 @@
                                                                    // .attr("cx",(d)=>{ return  (Math.random()*window.innerWidth)}) - only looks good
        
 
+
       const positional_test_svg = svg.append("circle")               //test svg 
         .attr("cx", 790)                        // Adjust the x-coordinate as needed
         .attr("cy", 362)                        // Adjust the y-coordinate as needed
@@ -230,16 +232,20 @@
         
 
 
+
       const last_time=Math.max(...total_time)                                    //CALCing max time and the index
       const index=total_time.indexOf(last_time)
       console.log("\nLast TIME is ",last_time," Indexed at ",index)
 
       
+
       //formatted total_time array with commas same as array 4 printed in console but with commmas.
       // Function to format a number with commas
 
       const formatted_total_time = total_time.map((number)=>(number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")));  // !!string format DONT USE 
       console.log(formatted_total_time);
+
+
 
       //**THE START VARIABLE IS PLACED AT THE TOP FOR BETTER MEASUREMENT**//
 
@@ -253,10 +259,47 @@
 
       }
       
-
       // Call logElapsedTime function every 5 seconds (5000 milliseconds)
       const intervalId = setInterval(logElapsedTime, interval_time);
 
+
+
+      //  Add event listeners for mouseover and mouseout to the SVG elements
+       svg.selectAll(".waste")
+             .on("mouseover", handleMouseOver)
+             .on("mouseout", handleMouseOut);
+
+      
+       function handleMouseOver(event,d) {                            // handle mouseout event
+                                                                   // Select the hovered element and update its text or class based on data
+         d3.select(this)
+            .text(d)                
+            .attr("fill", "cyan");   
+         console.log("Mouseover on element with data: ", d )   //logs data in the console
+
+         svg.append("text")                             //TEXT PART IS HERE...........................
+            .attr("x", d3.select(this).attr("cx"))      // Adjust position based on the hovered element's coordinates
+            .attr("y", d3.select(this).attr("cy") - 10) // Adjust position based on the hovered element's coordinates
+            .text(d)                                    // Set text content to the data associated with the hovered element
+            .attr("fill", "magenta");                   // Set text color
+       }
+                                                                 // handle mouseout event
+       function handleMouseOut(event,d) {
+                                                                 // Revert the changes made during mouseover
+         d3.select(this)
+          .text("")                                                     
+          .attr("fill", switchColor);                                //changing back the color to specifed one
+                             
+        svg.selectAll("text").remove();                              
+       }
+
+    
+
+
+  
+
+      
+      
     </script>
   </body>
 </html>
