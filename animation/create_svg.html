@@ -25,7 +25,7 @@
       #svg-container {
         width: 100vw;
         height: 100vh;
-        background: #6e6e6e;
+        background: linear-gradient(to bottom,#c2c2c2,#dadada);
     
       }
 
@@ -145,6 +145,9 @@
       // start sorting -- maintain a bool var for it.[Numeric value 0 or 1]
       // const start_sorting=true;
 
+      const startTime = performance.now();                    // Get the start time
+
+
       const range=d3.range(wasteNum)       //previously stored range(3)
 
       const wasteTypes = ["wet", "metal", "paper", "plastic", "wood"];
@@ -225,7 +228,35 @@
         .attr("r", 10)                          // Adjust the radius as needed
         .attr("fill", "orange");                // Adjust the fill color as needed
         
-   
+
+
+      const last_time=Math.max(...total_time)                                    //CALCing max time and the index
+      const index=total_time.indexOf(last_time)
+      console.log("\nLast TIME is ",last_time," Indexed at ",index)
+
+      
+      //formatted total_time array with commas same as array 4 printed in console but with commmas.
+      // Function to format a number with commas
+
+      const formatted_total_time = total_time.map((number)=>(number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")));  // !!string format DONT USE 
+      console.log(formatted_total_time);
+
+      //**THE START VARIABLE IS PLACED AT THE TOP FOR BETTER MEASUREMENT**//
+
+      const interval_time=10000                              //Interval variable
+                                                            // Function to calculate and log elapsed time
+      function logElapsedTime() {
+       let currentTime = performance.now();               // Get the current time
+       let elapsedTime = currentTime - startTime;         // Calculate elapsed time
+       console.log("Elapsed time:", elapsedTime.toFixed(2), "milliseconds"); // Log elapsed time
+       if(elapsedTime>=last_time+2*interval_time) clearInterval(intervalId)     //checking time passed with the last time (adding a value for better margin)        
+
+      }
+      
+
+      // Call logElapsedTime function every 5 seconds (5000 milliseconds)
+      const intervalId = setInterval(logElapsedTime, interval_time);
+
     </script>
   </body>
 </html>
