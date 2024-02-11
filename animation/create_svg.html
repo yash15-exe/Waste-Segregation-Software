@@ -79,6 +79,7 @@
     <img class="color_scheme" src="./color_scheme.png" alt="Color_Scheme" width="250">
   
     <script>
+      
       //   // Define parameters for waste materials
       //   const wasteTypes = ["type1", "type2", "type3", "type4", "type5"];
       //   const numWaste = 50; // Number of waste materials
@@ -259,7 +260,7 @@
 
       }
       
-      // Call logElapsedTime function every 5 seconds (5000 milliseconds)
+      // Call logElapsedTime function 
       const intervalId = setInterval(logElapsedTime, interval_time);
 
 
@@ -292,9 +293,10 @@
                              
         svg.selectAll("text").remove();                              
        }
-
-    
-
+                              //collecting all the arrays to pass to a file.
+       const combinedArray = [...random_waste, ...total_animation_time, ...delay_time, ...total_time,last_time]; 
+       csv_values=combinedArray.join(',')
+       console.log(csv_values)
 
   
 
