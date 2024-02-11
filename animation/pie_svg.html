@@ -57,6 +57,45 @@
         //fetch request from db to collect wastetypes Count.
         // FETCH OBJ PROVIDES COUNT FOR ALL TYPES OF WASTE
         
+
+        //IF RETRIEVING FROM A MONGO DB HOSTED ON ANOTHER DEVICE. 
+
+        // 1.npm i mongodb
+        // 2.// Import the MongoDB client
+        //     const { MongoClient } = require('mongodb');
+
+        //     // MongoDB connection URI
+        //     const uri = 'mongodb://username:password@hostname:port/database';
+
+        //     // Function to retrieve data from MongoDB
+        //     async function getDataFromMongoDB() {
+        //         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        //         try {
+        //             await client.connect();
+
+        //             // Access the database and collection
+        //             const database = client.db('your_database_name');
+        //             const collection = database.collection('your_collection_name');
+
+        //             // Query MongoDB for data
+        //             const data = await collection.find({}).toArray();
+        //             return data;
+        //         } catch (error) {
+        //             console.error('Error connecting to MongoDB:', error);
+        //             return null;
+        //         } finally {
+        //             await client.close();
+        //         }
+        //     }
+
+        //     // Call the function to retrieve data
+        //     getDataFromMongoDB().then(data => {
+        //         console.log('Data from MongoDB:', data);
+        //         // Process the retrieved data as needed
+        //     });
+
+        
         //data
         const data = [
             { category: "wet", value: findLength("wet") },     //{FROM FETCH -ONLY THIS PLACE NEEDS TO BE UPDATED-BELOW CODE IS GOOD]}
