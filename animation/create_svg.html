@@ -9,7 +9,7 @@
       body{
         font-size: 62.5%;
         margin: 0 0;
-         ;
+        /* overflow:hidden; */
       }
       ::-webkit-scrollbar{                                              /*  SCROLLBAR CSS */
         width: 10px;
@@ -32,27 +32,27 @@
      
       .svg-snoweb{
         position: absolute;
-        left : 76em;
+        left : 49.9vw;
         visibility:visible;
       }
       .funnel{
         position: absolute;
-        top: 20em;
-        left: 71.2em;
+        top: 27.5vh;
+        left: 46.5vw;
         visibility: visible;
         -webkit-user-drag: none;
       }
       .bin{
         position: absolute;
-        top: 54em;
-        left: 30em;
+        top: 74vh;
+        left: 19.6vw;
         visibility: visible;
         -webkit-user-drag: none;
       }
       .color_scheme{
         position: absolute;
-        top:3em;
-        right:10em;
+        top:5vh;
+        right:7vw;
         /* border: 10px solid #2b2b2b ; */  
         border-radius: 15%;
         box-shadow: 5px 5px 5px #141414, 10px 10px 10px #535353;
@@ -182,7 +182,7 @@
         .enter()
         .append("circle")
         .attr("class","waste")
-        .attr("cx", 790)         //790  //.attr("cx", (d)=>{ return Math.floor(Math.random()*window.innerWidth)})
+        .attr("cx", 0.514*window.innerWidth)         //790  //.attr("cx", (d)=>{ return Math.floor(Math.random()*window.innerWidth)})
         .attr("cy", 0)           //0
         .attr("r", 10)
         .attr("fill", switchColor)
@@ -191,28 +191,28 @@
         .transition()
         .duration((d,i)=>{ return total_animation_time[i]}) //0-300seconds [or 3000ms :) ] range  ---CAN BE REGULAR INTERVAL WITH [animation_time becomes time for whole completion]  
                                                                         //(d,i)=>{ return (i*animation_time)}          --- w/o data storage capability (d)=>{ return Math.floor(Math.random()*100*animation_time)}                               
-        .attr("cy",10)
+        .attr("cy",0.01*window.innerHeight)
         .ease(d3.easeLinear)                                         //ADDS DELAY AND RANDOMNESS TO THE FLOW OF WASTE.(another state is provided above)
 
         .transition()                                 //upto the funnel
         .duration(2000)
-        .attr("cy",270)
+        .attr("cy",0.375*innerHeight)
         .ease(d3.easeLinear)
 
         .transition()                                 //ADDing arbitrary delay within the funnel
         .duration((d,i)=>{ return delay_time[i]})          //w/o index--(range.map((e)=>e+1)[Math.floor(Math.random()*range.length)])*1000
-        .attr("cy",362)
+        .attr("cy",0.494*window.innerHeight)
         .ease(d3.easeLinear)
 
         .transition()                                                //# SEGREGATING #                                           
         .duration(2000)                             //2000 can be stored in a var to manipulate for different inputs
         .attr("cx",(d)=>{                          //"wet", "metal", "paper", "plastic", "wood"
           switch(d){
-            case "wet": return 1030;
-            case "metal": return 700;
-            case "plastic": return 580;
-            case "wood": return 450;
-            case "paper": return 340;
+            case "wet": return 0.68*window.innerWidth;
+            case "metal": return 0.46*window.innerWidth;
+            case "plastic": return 0.38*window.innerWidth;
+            case "wood": return 0.3*window.innerWidth;
+            case "paper": return 0.225*window.innerWidth;
            }
           } )    
         .ease(d3.easeExp)                             
@@ -226,8 +226,8 @@
 
 
       const positional_test_svg = svg.append("circle")               //test svg 
-        .attr("cx", 790)                        // Adjust the x-coordinate as needed
-        .attr("cy", 362)                        // Adjust the y-coordinate as needed
+        .attr("cx", 0.514*window.innerWidth)                        // Adjust the x-coordinate as needed
+        .attr("cy", 0.494*window.innerHeight)                        // Adjust the y-coordinate as needed
         .attr("r", 10)                          // Adjust the radius as needed
         .attr("fill", "orange");                // Adjust the fill color as needed
         
