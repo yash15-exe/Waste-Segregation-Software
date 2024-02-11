@@ -273,8 +273,7 @@
       
        function handleMouseOver(event,d) {                            // handle mouseout event
                                                                    // Select the hovered element and update its text or class based on data
-         d3.select(this)
-            .text(d)                
+         d3.select(this)               
             .attr("fill", "cyan");   
          console.log("Mouseover on element with data: ", d )   //logs data in the console
 
@@ -293,12 +292,14 @@
                              
         svg.selectAll("text").remove();                              
        }
-                              //collecting all the arrays to pass to a file.
-       const combinedArray = [...random_waste, ...total_animation_time, ...delay_time, ...total_time,last_time]; 
-       csv_values=combinedArray.join(',')
-       console.log(csv_values)
+                             //collecting all the arrays to pass to a file.
+        const combinedArray = [...random_waste, ...total_animation_time, ...delay_time, ...total_time,last_time]; 
+        console.log("Produced array length :",combinedArray.length)
 
-  
+        //Local storage usage
+        localStorage.setItem('csv', JSON.stringify(combinedArray));
+
+        // setInterval(()=>window.location.reload(),2000)            // WORKING reloads page after every 2s so the values get changed [FOR PIE CHART ]
 
       
       
