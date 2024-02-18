@@ -120,7 +120,7 @@ app.post("/data", (req, res) => {
 
 
 //Email Sending Mechanism//////////////////////////////////////////////////////////////////////////////
-mailBuddy("y raikar22it@student.mes.ac.in");
+mailBuddy(process.env.RECEIVER_EMAIL);
 app.post("/addWaste", (req, res) => {
   const request = req.body;
 
