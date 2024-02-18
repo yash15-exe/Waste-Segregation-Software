@@ -56,6 +56,10 @@ app.get("/simulation", (req, res) => {
   res.render("simulation");
 });
 
+app.get("/all", (req, res) => {
+  res.render("all");
+});
+
 app.get("/graphsimu", (req, res) => {
   res.render("graphsimu");
 });
@@ -102,7 +106,7 @@ app.post("/login", (req, res) => {
     res.status(401).send("Login failed. Try again.");
   }
 });
-
+// Data sending mechanism
 app.post("/data", (req, res) => {
   const request = req.body;
   const type = request.type;
@@ -114,8 +118,9 @@ app.post("/data", (req, res) => {
   });
 });
 
+
 //Email Sending Mechanism//////////////////////////////////////////////////////////////////////////////
-mailBuddy("yraikar22it@student.mes.ac.in")
+mailBuddy("y raikar22it@student.mes.ac.in");
 app.post("/addWaste", (req, res) => {
   const request = req.body;
 

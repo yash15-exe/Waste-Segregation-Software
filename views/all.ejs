@@ -6,80 +6,76 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>E-WASTE WASTE STORAGE FACILITY(TYPE:6)</h1>
+    <h1>Total Waste Storage Facility</h1>
     <div class="body">
       <div>
         <div class="info">
           <h1>Live Waste Type Capacity Status</h1>
         </div>
-        <div class="button"><button id="button">Add Waste</button></div>
       </div>
       <div class="container"></div>
     </div>
   </body>
   <script>
+    let classNames = [
+      "background-color: green",
+      "background-color: grey",
+      "background-color: white",
+      "background-color:yellow",
+      "background-color: silver",
+      "background-color: red",
+    ];
+    let wasteName = ["Wet", "Metal", "Paper", "Plastic", "Glass", "E-waste"];
     let infoElement;
     let capacity = 100;
-    const type = 6;
+    const type = [1, 2, 3, 4, 5, 6];
     let count = 0;
+    let totalCapacity = 0;
+    let totalCount = 0;
 
-    fetch("http://localhost:5000/data", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ type: type }),
-    })
-      .then((response) => response.json()) // Parse the response as JSON
-      .then((data) => {
-        console.log(data);
-        count = data.count;
-        console.log(count);
-        let capacity = data.capacity;
-        console.log(capacity);
-        infoElement = document.createElement("span");
-        infoElement.textContent = `TOTAL WASTE = ${count}`;
-        document.querySelector(".info").appendChild(infoElement);
-
-        statusElement = document.createElement("span");
-        statusElement.textContent = `TOTAL CAPACITY = ${capacity}`;
-        document.querySelector(".info").appendChild(statusElement);
-
-        percentElement = document.createElement("span");
-        percentElement.textContent = `PERCENTAGE FILLED = ${
-          (count / capacity) * 100
-        }%`;
-        document.querySelector(".info").appendChild(percentElement);
-
-        for (i = 0; i < count; i++) {
-          const newElement = document.createElement("p");
-          newElement.textContent = "E-Waste";
-          document.querySelector(".container").appendChild(newElement);
-        }
-      })
-      .catch((error) => console.error(error));
-
-    async function addWaste() {
-      const newElement = document.createElement("p");
-      newElement.textContent = "E-Waste";
-      fetch("http://localhost:5000/addWaste", {
+    for (let i = 0; i < type.length; i++) {
+      fetch("http://localhost:5000/data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ type: type }),
-      }).then(() => {
-        console.log("element added");
-        document.querySelector(".container").appendChild(newElement);
-        infoElement.textContent = `TOTAL WASTE = ${count + 1}`;
-        percentElement.textContent = `PERCENTAGE FILLED = ${
-          ((count + 1) / capacity) * 100
-        }%`;
-        count++;
-      });
-    }
+        body: JSON.stringify({ type: type[i] }),
+      })
+        .then((response) => response.json()) // Parse the response as JSON
+        .then((data) => {
+          console.log(data);
+          count = data.count;
+          console.log(count);
+          capacity = data.capacity;
 
-    document.querySelector("#button").addEventListener("click", addWaste);
+          console.log(capacity);
+          totalCapacity = totalCapacity + capacity;
+          totalCount = totalCount + count;
+
+          for (j = 0; j < count; j++) {
+            const newElement = document.createElement("p");
+            newElement.style = classNames[i];
+            newElement.textContent = wasteName[i];
+            document.querySelector(".container").appendChild(newElement);
+          }
+          if (i == type.length - 1) {
+            infoElement = document.createElement("span");
+            infoElement.textContent = `TOTAL WASTE = ${totalCount}`;
+            document.querySelector(".info").appendChild(infoElement);
+
+            statusElement = document.createElement("span");
+            statusElement.textContent = `TOTAL CAPACITY = ${totalCapacity}`;
+            document.querySelector(".info").appendChild(statusElement);
+
+            percentElement = document.createElement("span");
+            percentElement.textContent = `PERCENTAGE FILLED = ${Math.round(
+              (totalCount / totalCapacity) * 100
+            )}%`;
+            document.querySelector(".info").appendChild(percentElement);
+          }
+        })
+        .catch((error) => console.error(error));
+    }
   </script>
   <style>
     body {
@@ -122,7 +118,7 @@
       border: 5px black solid;
       margin: 5px;
       background-color: red;
-      color: black;
+      color: #222222;
       font-family: sans-serif;
       font-size: medium;
       align-items: center;

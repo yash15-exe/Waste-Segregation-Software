@@ -53,7 +53,7 @@
 
         for (i = 0; i < count; i++) {
           const newElement = document.createElement("p");
-          newElement.textContent = "Waste";
+          newElement.textContent = "Metal";
           document.querySelector(".container").appendChild(newElement);
         }
       })
@@ -61,7 +61,7 @@
 
     async function addWaste() {
       const newElement = document.createElement("p");
-      newElement.textContent = "Waste";
+      newElement.textContent = "Metal";
       fetch("http://localhost:5000/addWaste", {
         method: "POST",
         headers: {
@@ -119,15 +119,16 @@
 
       height: 50px;
       width: 50px;
-      border: 10px black solid;
+      border: 5px black solid;
       margin: 5px;
-      background-color: black;
-      color: antiquewhite;
+      background-color: grey;
+      color: black;
       font-family: sans-serif;
       font-size: medium;
       align-items: center;
       text-align: center;
       align-content: center;
+      justify-content: center;
     }
     .info {
       text-align: center;

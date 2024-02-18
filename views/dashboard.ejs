@@ -21,6 +21,7 @@
         <div class="status">
           <h1>Storage Facility live status</h1>
           <div class="buttonstack">
+            <button id="All">All Waste</button>
             <button id="organic">Organic</button>
             <button id="metal">Metal</button>
             <button id="paper">Paper</button>
@@ -81,7 +82,7 @@
       color: white;
       padding: 5px;
       font-family: sans-serif;
-      font-size: large;
+      font-size: x-small;
     }
     .buttonstack {
       padding-top: 10px;
@@ -147,5 +148,8 @@
     document
       .getElementById("ewaste")
       .addEventListener("click", () => redirect("ewaste"));
+    document
+      .getElementById("All")
+      .addEventListener("click", () => redirect("all"));
   </script>
 </html>
