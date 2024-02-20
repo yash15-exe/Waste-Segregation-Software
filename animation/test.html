@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      html {
+        font-size: 62.5%;
+        margin: 0 0;
+      }
+      #container {
+        height: 100vh;
+        width: 100vw;
+        margin: 0 0;
+        background-color: rgba(126, 143, 153, 0.941);
+        z-index: 100;
+      }
+      .conveyor {
+        position: absolute;
+        object-position: center;
+        bottom: 20vh;
+        left: 20vw;
+        rotate: 90deg;
+        -webkit-user-drag: none;
+        height: 350px;
+        visibility: hidden;
+        /* z-index: 0; */
+      }
+      .button-div {
+        position: absolute;
+        top: 5rem;
+        text-align: center;
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+        border: 3px solid rgba(0, 0, 0, 0.717);
+        border-radius: 10px;
+        /* z-index: 100; */
+      }
+      button {
+        background-color: transparent;
+        border: 2px solid hsla(223, 90%, 49%, 0.863);
+        border-radius: 10px;
+        padding: 10px;
+        outline: none;
+        text-transform: uppercase;
+        font-weight: bold;
+        margin: 20px;
+      }
+      button:hover {
+        background-color: hsla(0, 0%, 100%, 0.769);
+        border: 2px solid hsla(223, 90%, 49%, 0.708);
+        color: hsla(223, 90%, 49%, 0.863);
+      }
+      .colorScheme {
+        position: absolute;
+        top: 5rem;
+        right: 10rem;
+        scale: 0.8;
+        box-shadow: 5px 5px 10px hsla(60, 6%, 19%, 0.772),
+          10px 10px 10px hsla(60, 6%, 19%, 0.772);
+        border-radius: 4rem;
+        -webkit-user-drag: none;
+        /* z-index: 0; */
+        visibility: visible;
+      }
+      circle.waste {
+        position: absolute;
+        /* z-index: 1000; */
+      }
+      /* #frame{
+        position: absolute;
+        background-color: transparent;
+        height: 100%;
+        width: 100%;
+        z-index:1011 ;
+      } */
+      .image-container1 {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 40vh;
+        gap: 2rem;
+        left: 33vw;
+        visibility: visible;
+      }
+      .image-container2 {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 45vh;
+        gap: 4rem;
+        right: 33vw;
+        visibility: visible;
+      }
+    </style>
+    <title>D3.js</title>
+  </head>
+  <body>
+    <svg id="container"></svg>
+    <img
+      class="conveyor"
+      src="./conveyor-removebg-preview.png"
+      alt="Conveyor"
+    />
+    <img class="colorScheme" src="./color_scheme.png" alt="ColorScheme" />
+    <div class="button-div">
+      <button type="submit" onclick="WasteHandle(`wet`)">Wet</button>
+      <button type="submit" onclick="WasteHandle(`metal`)">Metal</button>
+      <button type="submit" onclick="WasteHandle(`plastic`)">Plastic</button>
+      <button type="submit" onclick="WasteHandle(`wood`)">Wood</button>
+      <button type="submit" onclick="WasteHandle(`paper`)">Paper</button>
+    </div>
+    <!-- <div class="frame-container">
+        <svg id="frame"></svg>
+    </div> -->
+    <div class="image-container1">
+      <img
+        class="box1"
+        src="./box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+      <img
+        class="box2"
+        src="./box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+      <img
+        class="box3"
+        src="./box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+    </div>
+    <div class="image-container2">
+      <img
+        class="box4"
+        src="./box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+      <img
+        class="box5"
+        src="./box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+    </div>
+
+    <script>
+      const svg = d3.select("#container");
+      const WasteIntroduced = []; //main array
+
+      function AddtoWasteIntroduced(Waste) {
+        //adds incoming waste to the main array for passing data to db
+        WasteIntroduced.push(Waste);
+      }
+
+      function WasteHandle(wasteType) {
+        //handles incoming waste and adds it to the main array
+        console.log("Waste introduced is ", wasteType);
+        AddtoWasteIntroduced(wasteType);
+        console.log(" Current array is ", WasteIntroduced);
+        LogSvgtotheContainer(wasteType); //calls the logger svg func()
+        localStorage.setItem("csv",JSON.stringify(WasteIntroduced)) //setting the localstorage for pie chart retrieval
+      }
+
+      function SwitchColor(d) {
+        //Provides specified color to the svgs   ___Called below
+        switch (d) {
+          case "wet":
+            return "#4AC9E3";
+          case "metal":
+            return "#A9A9A9";
+          case "plastic":
+            return "#FF5733";
+          case "wood":
+            return "#8B4513";
+          case "paper":
+            return "#F5F5F5";
+        }
+      }
+
+      function UptoBox(wasteType) {
+        switch (wasteType) {
+          case "wet":
+            return 0.45 * window.innerHeight;
+          case "metal":
+            return 0.65 * window.innerHeight;
+          case "plastic":
+            return 0.85 * window.innerHeight;
+          case "wood":
+            return 0.5 * window.innerHeight;
+          case "paper":
+            return 0.75 * window.innerHeight;
+        }
+      }
+
+      function MoveInBox(wasteType) {
+        switch (wasteType) {
+          case "wet":
+            return 0.35 * window.innerWidth;
+          case "metal":
+            return 0.35 * window.innerWidth;
+          case "plastic":
+            return 0.35 * window.innerWidth;
+          case "wood":
+            return 0.59 * window.innerWidth;
+          case "paper":
+            return 0.59 * window.innerWidth;
+        }
+      }
+
+      function LogSvgtotheContainer(wasteType) {
+        //logs svg to the svg container
+
+        svg
+          //removed class data enter
+          .append("circle")
+          .attr("class", "wastes")
+          .attr("cx", 0.5 * innerWidth)
+          .attr("cy", 10)
+          .attr("r", 10)
+          .attr("fill", SwitchColor(wasteType))
+
+          .transition()
+          .duration(3000)
+          .attr("cx", 0.5 * innerWidth)
+          .attr("cy", UptoBox(wasteType))
+          .ease(d3.easeLinear)
+
+          .transition()
+          .duration(2000)
+          .attr("cx", MoveInBox(wasteType))
+          .ease(d3.easeQuad);
+
+        //   svg                                        //dropped     //mouse events
+        //     .selectAll('wastes')
+        //     .on("mouseover", handleMouseOver)
+        //     .on("mouseout", handleMouseOut);
+      }
+
+      //positional svgs
+
+
+
+      const twov2 = svg
+        .append("circle")
+        .attr("cx", 0.56 * window.innerWidth)
+        .attr("cy", 0.5 * window.innerHeight)
+        .attr("r", 10)
+        .attr("fill", "red");
+
+      const twov1 = svg
+        .append("circle")
+        .attr("cx", 0.44 * window.innerWidth)
+        .attr("cy", 0.5 * window.innerHeight)
+        .attr("r", 10)
+        .attr("fill", "red");
+      const lv1 = svg
+        .append("circle")
+        .attr("cx", 0.44 * window.innerWidth)
+        .attr("cy", 10)
+        .attr("r", 10)
+        .attr("fill", "red");
+      const lvtwo = svg
+        .append("circle")
+        .attr("cx", 0.56 * window.innerWidth)
+        .attr("cy", 10)
+        .attr("r", 10)
+        .attr("fill", "red");
+
+      //  Add event listeners for mouseover and mouseout to the SVG elements
+
+      function handleMouseOver(event, d) {
+        d3.select(this).attr("fill", "cyan");
+        console.log("Mouseover on element with data: ", d); //logs data in the console
+
+        svg
+          .append("text") //TEXT PART IS HERE...........................
+          .attr("x", d3.select(this).attr("cx")) // Adjust position based on the hovered element's coordinates
+          .attr("y", d3.select(this).attr("cy") - 10) // Adjust position based on the hovered element's coordinates
+          .text(d) // Set text content to the data associated with the hovered element
+          .style("font-size", "20px")
+          .attr("fill", "magenta");
+      }
+      // handle mouseout event
+      function handleMouseOut(event, d) {
+        // Revert the changes made during mouseover
+        d3.select(this).text("").attr("fill", SwitchColor); //changing back the color to specifed one
+
+        svg.selectAll("text").remove();
+      }
+
+      // for(let i=0;i<5;i++){                    //for checking purpose
+      //     setInterval(()=>{
+      //             svg.append("circle")
+      //             .attr("cx", 0.5 * window.innerWidth)
+      //             .attr("cy", 10)
+      //             .attr("r", 10)
+      //             .attr("fill", "red")                 //appends a circle
+
+      //             .transition()
+      //             .duration(4000)
+      //             .attr("cx", 30)
+      //             .attr("cy", 80)                       //transition to a point
+      //     },2000)
+      // }
+
+      // svg.append("circle")
+      // .attr("cx", 0.5 * window.innerWidth)
+      // .attr("cy",10)
+      // .attr("r",10)
+      // .attr("fill","red")                 //appends a circle
+
+      // .transition()
+      // .duration(4000)
+      // .attr("cx",30)
+      // .attr("cy",80)                      //transition to a point
+    </script>
+  </body>
+</html>

@@ -31,8 +31,14 @@
 
       .svg-snoweb {
         position: absolute;
+<<<<<<< HEAD
+        left : 49.9vw;
+        visibility:visible;
+        
+=======
         left: 49.9vw;
         visibility: visible;
+>>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
       }
       .funnel {
         position: absolute;
@@ -40,6 +46,7 @@
         left: 46.5vw;
         visibility: visible;
         -webkit-user-drag: none;
+        
       }
       .bin {
         position: absolute;
@@ -50,9 +57,15 @@
       }
       .color_scheme {
         position: absolute;
+<<<<<<< HEAD
+        top:5vh;
+        right:7vw;
+        /* border: 10px solid #2b2b2b ; */  
+=======
         top: 5vh;
         right: 7vw;
         /* border: 10px solid #2b2b2b ; */
+>>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
         border-radius: 15%;
         box-shadow: 5px 5px 5px #141414, 10px 10px 10px #535353;
         -webkit-user-drag: none;
@@ -200,22 +213,57 @@
         .data(random_waste)
         .enter()
         .append("circle")
+<<<<<<< HEAD
+        .attr("class","waste")
+        .attr("cx", 0.514*window.innerWidth)         //790  //.attr("cx", (d)=>{ return Math.floor(Math.random()*window.innerWidth)})
+        .attr("cy", 0)           //0
+=======
         .attr("class", "waste")
         .attr("cx", 0.514 * window.innerWidth) //790  //.attr("cx", (d)=>{ return Math.floor(Math.random()*window.innerWidth)})
         .attr("cy", 0) //0
+>>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
         .attr("r", 10)
         .attr("fill", switchColor)
 
         .transition()
+<<<<<<< HEAD
+        .duration((d,i)=>{ return total_animation_time[i]}) //0-300seconds [or 3000ms :) ] range  ---CAN BE REGULAR INTERVAL WITH [animation_time becomes time for whole completion]  
+                                                                        //(d,i)=>{ return (i*animation_time)}          --- w/o data storage capability (d)=>{ return Math.floor(Math.random()*100*animation_time)}                               
+        .attr("cy",0.01*window.innerHeight)
+        .ease(d3.easeLinear)                                         //ADDS DELAY AND RANDOMNESS TO THE FLOW OF WASTE.(another state is provided above)
+=======
         .duration((d, i) => {
           return total_animation_time[i];
         }) //0-300seconds [or 3000ms :) ] range  ---CAN BE REGULAR INTERVAL WITH [animation_time becomes time for whole completion]
         //(d,i)=>{ return (i*animation_time)}          --- w/o data storage capability (d)=>{ return Math.floor(Math.random()*100*animation_time)}
         .attr("cy", 0.01 * window.innerHeight)
         .ease(d3.easeLinear) //ADDS DELAY AND RANDOMNESS TO THE FLOW OF WASTE.(another state is provided above)
+>>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
 
         .transition() //upto the funnel
         .duration(2000)
+<<<<<<< HEAD
+        .attr("cy",0.375*innerHeight)
+        .ease(d3.easeLinear)
+
+        .transition()                                 //ADDing arbitrary delay within the funnel
+        .duration((d,i)=>{ return delay_time[i]})          //w/o index--(range.map((e)=>e+1)[Math.floor(Math.random()*range.length)])*1000
+        .attr("cy",0.494*window.innerHeight)
+        .ease(d3.easeLinear)
+
+        .transition()                                                //# SEGREGATING #                                           
+        .duration(2000)                             //2000 can be stored in a var to manipulate for different inputs
+        .attr("cx",(d)=>{                          //"wet", "metal", "paper", "plastic", "wood"
+          switch(d){
+            case "wet": return 0.68*window.innerWidth;
+            case "metal": return 0.46*window.innerWidth;
+            case "plastic": return 0.38*window.innerWidth;
+            case "wood": return 0.3*window.innerWidth;
+            case "paper": return 0.225*window.innerWidth;
+           }
+          } )    
+        .ease(d3.easeExp)                             
+=======
         .attr("cy", 0.375 * innerHeight)
         .ease(d3.easeLinear)
 
@@ -244,6 +292,7 @@
           }
         })
         .ease(d3.easeExp)
+>>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
 
         .transition() //end transition
         .duration(5000)
@@ -258,9 +307,26 @@
         .attr("r", 10) // Adjust the radius as needed
         .attr("fill", "orange"); // Adjust the fill color as needed
 
+<<<<<<< HEAD
+      const positional_test_svg = svg.append("circle")               //test svg 
+        .attr("cx", 0.514*window.innerWidth)                        // Adjust the x-coordinate as needed
+        .attr("cy", 0.494*window.innerHeight)                        // Adjust the y-coordinate as needed
+        .attr("r", 10)                          // Adjust the radius as needed
+        .attr("fill", "orange");                // Adjust the fill color as needed
+        
+
+
+
+      const last_time=Math.max(...total_time)                                    //CALCing max time and the index
+      const index=total_time.indexOf(last_time)
+      console.log("\nLast TIME is ",last_time," Indexed at ",index)
+
+      
+=======
       const last_time = Math.max(...total_time); //CALCing max time and the index
       const index = total_time.indexOf(last_time);
       console.log("\nLast TIME is ", last_time, " Indexed at ", index);
+>>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
 
       //formatted total_time array with commas same as array 4 printed in console but with commmas.
       // Function to format a number with commas
@@ -291,6 +357,38 @@
         .on("mouseover", handleMouseOver)
         .on("mouseout", handleMouseOut);
 
+<<<<<<< HEAD
+      
+       function handleMouseOver(event,d) {                            // handle mouseout event
+                                                                   // Select the hovered element and update its text or class based on data
+         d3.select(this)               
+            .attr("fill", "cyan");   
+         console.log("Mouseover on element with data: ", d )   //logs data in the console
+
+         svg.append("text")                             //TEXT PART IS HERE...........................
+            .attr("x", d3.select(this).attr("cx"))      // Adjust position based on the hovered element's coordinates
+            .attr("y", d3.select(this).attr("cy") - 10) // Adjust position based on the hovered element's coordinates
+            .text(d)                                    // Set text content to the data associated with the hovered element
+            .attr("fill", "magenta");                   // Set text color
+       }
+                                                                 // handle mouseout event
+       function handleMouseOut(event,d) {
+                                                                 // Revert the changes made during mouseover
+         d3.select(this)
+          .text("")                                                     
+          .attr("fill", switchColor);                                //changing back the color to specifed one
+                             
+        svg.selectAll("text").remove();                              
+       }
+                             //collecting all the arrays to pass to a file.
+        const combinedArray = [...random_waste, ...total_animation_time, ...delay_time, ...total_time,last_time]; 
+        console.log("Produced array length :",combinedArray.length)
+
+        //Local storage usage
+        localStorage.setItem('csv', JSON.stringify(combinedArray));
+
+        // setInterval(()=>window.location.reload(),2000)            // WORKING reloads page after every 2s so the values get changed [FOR PIE CHART ]
+=======
       function handleMouseOver(event, d) {
         // handle mouseout event
         // Select the hovered element and update its text or class based on data
@@ -320,6 +418,7 @@
         last_time,
       ];
       console.log("Produced array length :", combinedArray.length);
+>>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
 
       //Local storage usage
       localStorage.setItem("csv", JSON.stringify(combinedArray));
