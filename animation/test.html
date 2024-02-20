@@ -171,6 +171,7 @@
         AddtoWasteIntroduced(wasteType);
         console.log(" Current array is ", WasteIntroduced);
         LogSvgtotheContainer(wasteType); //calls the logger svg func()
+        localStorage.setItem("csv",JSON.stringify(WasteIntroduced)) //setting the localstorage for pie chart retrieval
       }
 
       function SwitchColor(d) {
