@@ -10,21 +10,23 @@
         background-color: #f0f0f0;
       }
       .container {
-        max-width: 400px;
+        max-width: 600px;
         margin: 100px auto;
         padding: 20px;
         background-color: #fff;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
-      h2 {
+      h2,
+      h1 {
         text-align: center;
         margin-bottom: 20px;
       }
       input[type="password"] {
-        width: 100%;
+        width: 96%;
         padding: 10px;
         margin-bottom: 20px;
+        margin-right: 20px;
         border-radius: 5px;
         border: 1px solid #ccc;
       }
@@ -44,10 +46,16 @@
   </head>
   <body>
     <div class="container">
-      <h2>Login</h2>
+      <h1>Waste Segregation System</h1>
+      <h2>Admin Login</h2>
       <form id="loginForm">
-        <input type="password" id="password" placeholder="Password" required />
-        <button type="submit" id="button">Submit</button>
+        <input
+          type="password"
+          id="password"
+          placeholder="Admin Password"
+          required
+        />
+        <button type="submit" id="button">Authenticate</button>
       </form>
     </div>
 
@@ -64,11 +72,11 @@
             },
             body: JSON.stringify({ password: password }),
           });
-        
+
           if (response.ok) {
             window.location.href = "/dashboard";
           } else {
-            alert("Wrong password")
+            alert("Wrong password");
           }
         });
     </script>
