@@ -317,16 +317,13 @@
 
 
 
-      const last_time=Math.max(...total_time)                                    //CALCing max time and the index
-      const index=total_time.indexOf(last_time)
-      console.log("\nLast TIME is ",last_time," Indexed at ",index)
 
       
-=======
+
       const last_time = Math.max(...total_time); //CALCing max time and the index
       const index = total_time.indexOf(last_time);
       console.log("\nLast TIME is ", last_time, " Indexed at ", index);
->>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
+
 
       //formatted total_time array with commas same as array 4 printed in console but with commmas.
       // Function to format a number with commas
@@ -357,7 +354,7 @@
         .on("mouseover", handleMouseOver)
         .on("mouseout", handleMouseOut);
 
-<<<<<<< HEAD
+
       
        function handleMouseOver(event,d) {                            // handle mouseout event
                                                                    // Select the hovered element and update its text or class based on data
@@ -380,15 +377,12 @@
                              
         svg.selectAll("text").remove();                              
        }
-                             //collecting all the arrays to pass to a file.
-        const combinedArray = [...random_waste, ...total_animation_time, ...delay_time, ...total_time,last_time]; 
-        console.log("Produced array length :",combinedArray.length)
 
         //Local storage usage
         localStorage.setItem('csv', JSON.stringify(combinedArray));
 
         // setInterval(()=>window.location.reload(),2000)            // WORKING reloads page after every 2s so the values get changed [FOR PIE CHART ]
-=======
+
       function handleMouseOver(event, d) {
         // handle mouseout event
         // Select the hovered element and update its text or class based on data
@@ -418,7 +412,7 @@
         last_time,
       ];
       console.log("Produced array length :", combinedArray.length);
->>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
+
 
       //Local storage usage
       localStorage.setItem("csv", JSON.stringify(combinedArray));
