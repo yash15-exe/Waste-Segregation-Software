@@ -46,7 +46,7 @@
         const data_from_animefile=JSON.parse(localStorage.getItem('csv'));   
         console.log("In pie file ",data_from_animefile)
 
-        const random_waste=data_from_animefile.slice(0,50)   //considering batches are made for 50
+        const random_waste=data_from_animefile   //considering batches are made for 50
         console.log(random_waste)
 
         // Filter the array to include only elements that match the searchString and then find the length
