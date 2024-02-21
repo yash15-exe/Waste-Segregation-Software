@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waste Management App</title>
+  </head>
+  <body>
+    <div class="Title">
+      <h1>Waste Segregation Management Portal</h1>
+    </div>
+    <div class="space"></div>
+
+    <div class="main">
+      <div class="sidebar">
+        <ul>
+          <li id="segresimu">Waste Segregation Simulation--></li>
+          <li id="graphsimu">Graphical representation of Waste--></li>
+          <li id="proportion">Proportion of waste--></li>
+        </ul>
+        <div class="status">
+          <h1>Storage Facility live status</h1>
+          <div class="buttonstack">
+            <button id="All">All Waste</button>
+            <button id="organic">Organic</button>
+            <button id="metal">Metal</button>
+            <button id="paper">Paper</button>
+            <button id="plastic">Plastic</button>
+            <button id="glass">Glass</button>
+            <button id="ewaste">E-waste</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <img src="/images/44620.jpg" alt="garbage" />
+        <img src="/images/Garbage.png" alt="garbage sorting" />
+      </div>
+    </div>
+  </body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .Title {
+      padding: 2px;
+      text-align: center;
+      font-size: large;
+      font-family: sans-serif;
+      background-color: antiquewhite;
+      max-width: 100vw;
+    }
+
+    .sidebar {
+      max-width: 25vw;
+      padding: 5px;
+      background-color: antiquewhite;
+      border-right: solid 5px black;
+      word-wrap: break-word;
+    }
+    .sidebar li {
+      background-color: cyan;
+      word-wrap: normal;
+      margin: 2px;
+      padding: 3px;
+      border: solid black 1px;
+      font-family: sans-serif;
+      font-size: 25px;
+      margin: 5px;
+      word-wrap: break-word;
+      cursor: pointer;
+    }
+    .space {
+      background-color: black;
+      height: 5px;
+    }
+    .main {
+      display: flex;
+    }
+    .status {
+      background-color: black;
+      color: white;
+      padding: 5px;
+      font-family: sans-serif;
+      font-size: x-small;
+    }
+    .buttonstack {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin: 2px;
+
+      background-color: antiquewhite;
+    }
+    .buttonstack button {
+      width: 97%;
+      padding: 10px;
+      margin: 5px;
+      background-color: cyan;
+      font-family: sans-serif;
+      font-size: large;
+      cursor: pointer;
+    }
+    img {
+      height: 30vh;
+      margin: 25px;
+      border: solid black 5px;
+      padding: 20px;
+      background-color: antiquewhite;
+    }
+  </style>
+  <script>
+    function redirect(path) {
+      window.location.href = `/${path}`;
+    }
+
+    document
+      .getElementById("segresimu")
+      .addEventListener("click", () => redirect("simulation"));
+
+    document
+      .getElementById("graphsimu")
+      .addEventListener("click", () => redirect("graphsimu"));
+
+    document
+      .getElementById("proportion")
+      .addEventListener("click", () => redirect("proportion"));
+
+    document
+      .getElementById("organic")
+      .addEventListener("click", () => redirect("organic"));
+
+    document
+      .getElementById("metal")
+      .addEventListener("click", () => redirect("metal"));
+
+    document
+      .getElementById("paper")
+      .addEventListener("click", () => redirect("paper"));
+
+    document
+      .getElementById("plastic")
+      .addEventListener("click", () => redirect("plastic"));
+
+    document
+      .getElementById("glass")
+      .addEventListener("click", () => redirect("glass"));
+
+    document
+      .getElementById("ewaste")
+      .addEventListener("click", () => redirect("ewaste"));
+    document
+      .getElementById("All")
+      .addEventListener("click", () => redirect("all"));
+  </script>
+</html>

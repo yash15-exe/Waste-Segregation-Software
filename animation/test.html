@@ -171,6 +171,7 @@
         AddtoWasteIntroduced(wasteType);
         console.log(" Current array is ", WasteIntroduced);
         LogSvgtotheContainer(wasteType); //calls the logger svg func()
+        localStorage.setItem("csv",JSON.stringify(WasteIntroduced)) //setting the localstorage for pie chart retrieval
       }
 
       function SwitchColor(d) {
@@ -242,10 +243,10 @@
           .attr("cx", MoveInBox(wasteType))
           .ease(d3.easeQuad);
 
-        //   svg                                        //dropped     //mouse events
-        //     .selectAll('wastes')
-        //     .on("mouseover", handleMouseOver)
-        //     .on("mouseout", handleMouseOut);
+          svg                                        //dropped     //mouse events
+            .select('circle')
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut);
       }
 
       //positional svgs

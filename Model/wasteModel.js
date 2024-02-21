@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-const wasteSchema = mongoose.Schema({
+const wasteSchema = new mongoose.Schema({
   id: {
     type: String,
     required: true,
@@ -9,12 +9,7 @@ const wasteSchema = mongoose.Schema({
   type: {
     type: String,
     required: true,
-    unique: true,
-  },
-  message: {
-    type: String,
-    required: true,
   },
 });
 
-export const wasteModel = mongoose.model(waste, wasteSchema);
+module.exports = mongoose.model("Waste", wasteSchema);
