@@ -1,163 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pie Chart with D3.js</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        body{
-            overflow :hidden;
+      body {
+        overflow: hidden;
+      }
+      .svg-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        animation: myanime 5s ease-in-out alternate infinite;
+      }
+      @keyframes myanime {
+        0% {
+          background: rgba(55, 98, 186, 0.874);
         }
-        .svg-container{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            animation: myanime 5s ease-in-out alternate infinite;
-
+        50% {
+          background: rgba(86, 193, 229, 0.874);
         }
-        @keyframes myanime {
-            0%{
-                background: rgba(55, 98, 186, 0.874);
-            }
-            50%{
-                background: rgba(86, 193, 229, 0.874);
-            }
-            100%{
-                background:rgba(99, 148, 244, 0.874);
-
-            }
-            
+        100% {
+          background: rgba(99, 148, 244, 0.874);
         }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="svg-container">
-        <svg id="pie-chart"  >
-        </svg>
+      <svg id="pie-chart"></svg>
     </div>
-    
 
     <script>
-        // setInterval(()=>window.location.reload(),2000)            //!WORKING   reloads page after every 2s so the values get changed [FOR PIE CHART ]
+      // setInterval(()=>window.location.reload(),2000)            //!WORKING   reloads page after every 2s so the values get changed [FOR PIE CHART ]
 
-        //firstly get the data send to mongo from create_svg.html  here I might use from local storage.
-        const data_from_animefile=JSON.parse(localStorage.getItem('csv'));   
-        console.log("In pie file ",data_from_animefile)
+      //firstly get the data send to mongo from create_svg.html  here I might use from local storage.
+      const data_from_animefile = JSON.parse(localStorage.getItem("csv"));
+      console.log("In pie file ", data_from_animefile, typeof data_from_animefile); //console logger
+      
+      setInterval(() => {                                       //check for added material in local storage if different reload new pie
+          if (JSON.stringify(data_from_animefile) !== localStorage.getItem("csv")) {
+              console.log("inside if ",JSON.stringify(data_from_animefile) === localStorage.getItem("csv"));
+              window.location.reload();
+            }
+    }, 2000);
 
-        
 
+      const random_waste = data_from_animefile; //considering batches are made for 50--previously valid (diff now)
+      console.log(random_waste)
 
-        const random_waste=data_from_animefile   //considering batches are made for 50
-        console.log(random_waste)
+      // Filter the array to include only elements that match the searchString and then find the length
+      function findLength(searchString) {
+        //AFTER FETCH _NO MORE NEEDED
+        return random_waste.filter((item) => item === searchString).length;
+      }
 
-        // Filter the array to include only elements that match the searchString and then find the length
-        function findLength(searchString){                                      //AFTER FETCH _NO MORE NEEDED
-            return random_waste.filter(item => item === searchString).length;
-        }
+      //fetch request from db to collect wastetypes Count.
+      // FETCH OBJ PROVIDES COUNT FOR ALL TYPES OF WASTE
 
-        //fetch request from db to collect wastetypes Count.
-        // FETCH OBJ PROVIDES COUNT FOR ALL TYPES OF WASTE
-        
+      //IF RETRIEVING FROM A MONGO DB HOSTED ON ANOTHER DEVICE.
 
-        //IF RETRIEVING FROM A MONGO DB HOSTED ON ANOTHER DEVICE. 
+      // 1.npm i mongodb
+      // 2.// Import the MongoDB client
+      //     const { MongoClient } = require('mongodb');
 
-        // 1.npm i mongodb
-        // 2.// Import the MongoDB client
-        //     const { MongoClient } = require('mongodb');
+      //     // MongoDB connection URI
+      //     const uri = 'mongodb://username:password@hostname:port/database';
 
-        //     // MongoDB connection URI
-        //     const uri = 'mongodb://username:password@hostname:port/database';
+      //     // Function to retrieve data from MongoDB
+      //     async function getDataFromMongoDB() {
+      //         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-        //     // Function to retrieve data from MongoDB
-        //     async function getDataFromMongoDB() {
-        //         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      //         try {
+      //             await client.connect();
 
-        //         try {
-        //             await client.connect();
+      //             // Access the database and collection
+      //             const database = client.db('your_database_name');
+      //             const collection = database.collection('your_collection_name');
 
-        //             // Access the database and collection
-        //             const database = client.db('your_database_name');
-        //             const collection = database.collection('your_collection_name');
+      //             // Query MongoDB for data
+      //             const data = await collection.find({}).toArray();
+      //             return data;
+      //         } catch (error) {
+      //             console.error('Error connecting to MongoDB:', error);
+      //             return null;
+      //         } finally {
+      //             await client.close();
+      //         }
+      //     }
 
-        //             // Query MongoDB for data
-        //             const data = await collection.find({}).toArray();
-        //             return data;
-        //         } catch (error) {
-        //             console.error('Error connecting to MongoDB:', error);
-        //             return null;
-        //         } finally {
-        //             await client.close();
-        //         }
-        //     }
+      //     // Call the function to retrieve data
+      //     getDataFromMongoDB().then(data => {
+      //         console.log('Data from MongoDB:', data);
+      //         // Process the retrieved data as needed
+      //     });
 
-        //     // Call the function to retrieve data
-        //     getDataFromMongoDB().then(data => {
-        //         console.log('Data from MongoDB:', data);
-        //         // Process the retrieved data as needed
-        //     });
+      //data
+      const data = [
+        { category: "wet", value: findLength("wet") }, //{FROM FETCH -ONLY THIS PLACE NEEDS TO BE UPDATED-BELOW CODE IS GOOD]}
+        { category: "metal", value: findLength("metal") },
+        { category: "plastic", value: findLength("plastic") },
+        { category: "wood", value: findLength("wood") },
+        { category: "paper", value: findLength("paper") },
+      ];
+      for (const d of data) {
+        console.log(d.category, " : ", d.value);
+      }
 
-        
-        //data
-        const data = [
-            { category: "wet", value: findLength("wet") },     //{FROM FETCH -ONLY THIS PLACE NEEDS TO BE UPDATED-BELOW CODE IS GOOD]}
-            { category: "metal", value: findLength("metal") },
-            { category: "plastic", value: findLength("plastic") },
-            { category: "wood", value: findLength("wood") },
-            { category: "paper", value: findLength("paper") }
-            
-        ];
-        for (const d of data){
-            console.log(d.category ," : ", d.value)
-        }
+      // Set up dimensions
+      const width = 700;
+      const height = 700;
+      const radius = Math.min(width, height) / 2;
 
-        // Set up dimensions
-        const width = 700
-        const height =700;
-        const radius = Math.min(width, height) / 2;
+      // Set up color scale
+      const color = d3
+        .scaleOrdinal()
+        .domain(data.map((d) => d.category))
+        .range(["#4AC9E3", "#A9A9A9", "#FF5733", "#8B4513", "#F5F5F5"]); //color scheme decided in create_svg.htm
 
-        // Set up color scale
-        const color = d3.scaleOrdinal()
-            .domain(data.map(d => d.category))
-            .range(["#4AC9E3","#A9A9A9","#FF5733","#8B4513","#F5F5F5"]);  //color scheme decided in create_svg.htm
+      // Create pie layout
+      const pie = d3.pie().value((d) => d.value);
 
-        // Create pie layout
-        const pie = d3.pie()
-            .value(d => d.value);
+      // Create arc generator
+      const arc = d3
+        .arc()
+        .innerRadius(15) //The hole in the center , to avoid value = 0.
+        .outerRadius(radius);
 
-        // Create arc generator
-        const arc = d3.arc()
-            .innerRadius(15)  //The hole in the center , to avoid value = 0.
-            .outerRadius(radius);
+      // Create SVG element
+      const svg = d3
+        .select("#pie-chart")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-        // Create SVG element
-        const svg = d3.select("#pie-chart")
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", `translate(${width / 2}, ${height / 2})`);
+      // Generate pie chart
+      const arcs = svg
+        .selectAll(".arc")
+        .data(pie(data))
+        .enter()
+        .append("g")
+        .attr("class", "arc");
 
-        // Generate pie chart
-        const arcs = svg.selectAll(".arc")
-            .data(pie(data))
-            .enter()
-            .append("g")
-            .attr("class", "arc");
+      // Draw arcs
+      arcs
+        .append("path")
+        .attr("d", arc)
+        .attr("fill", (d) => color(d.data.category));
 
-        // Draw arcs
-        arcs.append("path")
-            .attr("d", arc)
-            .attr("fill", d => color(d.data.category));
-
-        // Add labels
-        arcs.append("text")
-            .attr("transform", d => `translate(${arc.centroid(d)})`)
-            .attr("text-anchor", "middle")
-            .attr("dy", "0.35em")
-            .text(d => d.data.category);
-
-        
+      // Add labels
+      arcs
+        .append("text")
+        .attr("transform", (d) => `translate(${arc.centroid(d)})`)
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em")
+        .text((d) => d.data.category);
     </script>
-</body>
+  </body>
 </html>
