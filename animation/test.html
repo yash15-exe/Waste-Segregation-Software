@@ -95,6 +95,9 @@
         right: 33vw;
         visibility: visible;
       }
+      .box1, .box2 ,.box3 ,.box4,.box5{
+        -webkit-user-drag: none;
+      }
     </style>
     <title>D3.js</title>
   </head>
@@ -241,12 +244,12 @@
           .transition()
           .duration(2000)
           .attr("cx", MoveInBox(wasteType))
-          .ease(d3.easeQuad);
+          .ease(d3.easeQuad)
 
           svg                                        //dropped     //mouse events
             .select('circle')
-            .on("mouseover", handleMouseOver)
-            .on("mouseout", handleMouseOut);
+            .on("mouseover", handleMouseOver(wasteType))
+            .on("mouseout", handleMouseOut(wasteType));
       }
 
       //positional svgs
@@ -258,7 +261,8 @@
         .attr("cx", 0.56 * window.innerWidth)
         .attr("cy", 0.5 * window.innerHeight)
         .attr("r", 10)
-        .attr("fill", "red");
+        .attr("fill", "red")
+        .on("click", () => { d3.select(this).attr("fill", cyan) })
 
       const twov1 = svg
         .append("circle")
