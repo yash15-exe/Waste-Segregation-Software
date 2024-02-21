@@ -31,14 +31,14 @@
 
       .svg-snoweb {
         position: absolute;
-<<<<<<< HEAD
+
         left : 49.9vw;
         visibility:visible;
         
-=======
+
         left: 49.9vw;
         visibility: visible;
->>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
+
       }
       .funnel {
         position: absolute;
@@ -57,15 +57,15 @@
       }
       .color_scheme {
         position: absolute;
-<<<<<<< HEAD
+
         top:5vh;
         right:7vw;
         /* border: 10px solid #2b2b2b ; */  
-=======
+
         top: 5vh;
         right: 7vw;
         /* border: 10px solid #2b2b2b ; */
->>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
+
         border-radius: 15%;
         box-shadow: 5px 5px 5px #141414, 10px 10px 10px #535353;
         -webkit-user-drag: none;
@@ -213,36 +213,36 @@
         .data(random_waste)
         .enter()
         .append("circle")
-<<<<<<< HEAD
+
         .attr("class","waste")
         .attr("cx", 0.514*window.innerWidth)         //790  //.attr("cx", (d)=>{ return Math.floor(Math.random()*window.innerWidth)})
         .attr("cy", 0)           //0
-=======
+
         .attr("class", "waste")
         .attr("cx", 0.514 * window.innerWidth) //790  //.attr("cx", (d)=>{ return Math.floor(Math.random()*window.innerWidth)})
         .attr("cy", 0) //0
->>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
+ 
         .attr("r", 10)
         .attr("fill", switchColor)
 
         .transition()
-<<<<<<< HEAD
+
         .duration((d,i)=>{ return total_animation_time[i]}) //0-300seconds [or 3000ms :) ] range  ---CAN BE REGULAR INTERVAL WITH [animation_time becomes time for whole completion]  
                                                                         //(d,i)=>{ return (i*animation_time)}          --- w/o data storage capability (d)=>{ return Math.floor(Math.random()*100*animation_time)}                               
         .attr("cy",0.01*window.innerHeight)
         .ease(d3.easeLinear)                                         //ADDS DELAY AND RANDOMNESS TO THE FLOW OF WASTE.(another state is provided above)
-=======
+
         .duration((d, i) => {
           return total_animation_time[i];
         }) //0-300seconds [or 3000ms :) ] range  ---CAN BE REGULAR INTERVAL WITH [animation_time becomes time for whole completion]
         //(d,i)=>{ return (i*animation_time)}          --- w/o data storage capability (d)=>{ return Math.floor(Math.random()*100*animation_time)}
         .attr("cy", 0.01 * window.innerHeight)
         .ease(d3.easeLinear) //ADDS DELAY AND RANDOMNESS TO THE FLOW OF WASTE.(another state is provided above)
->>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
+
 
         .transition() //upto the funnel
         .duration(2000)
-<<<<<<< HEAD
+
         .attr("cy",0.375*innerHeight)
         .ease(d3.easeLinear)
 
@@ -263,7 +263,7 @@
            }
           } )    
         .ease(d3.easeExp)                             
-=======
+
         .attr("cy", 0.375 * innerHeight)
         .ease(d3.easeLinear)
 
@@ -292,7 +292,7 @@
           }
         })
         .ease(d3.easeExp)
->>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
+
 
         .transition() //end transition
         .duration(5000)
@@ -300,14 +300,14 @@
         .ease(d3.easeLinear);
       // .attr("cx",(d)=>{ return  (Math.random()*window.innerWidth)}) - only looks good
 
-      const positional_test_svg = svg
+      const positional_test_svg1 = svg
         .append("circle") //test svg
         .attr("cx", 0.514 * window.innerWidth) // Adjust the x-coordinate as needed
         .attr("cy", 0.494 * window.innerHeight) // Adjust the y-coordinate as needed
         .attr("r", 10) // Adjust the radius as needed
         .attr("fill", "orange"); // Adjust the fill color as needed
 
-<<<<<<< HEAD
+
       const positional_test_svg = svg.append("circle")               //test svg 
         .attr("cx", 0.514*window.innerWidth)                        // Adjust the x-coordinate as needed
         .attr("cy", 0.494*window.innerHeight)                        // Adjust the y-coordinate as needed
@@ -317,16 +317,13 @@
 
 
 
-      const last_time=Math.max(...total_time)                                    //CALCing max time and the index
-      const index=total_time.indexOf(last_time)
-      console.log("\nLast TIME is ",last_time," Indexed at ",index)
 
       
-=======
+
       const last_time = Math.max(...total_time); //CALCing max time and the index
       const index = total_time.indexOf(last_time);
       console.log("\nLast TIME is ", last_time, " Indexed at ", index);
->>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
+
 
       //formatted total_time array with commas same as array 4 printed in console but with commmas.
       // Function to format a number with commas
@@ -357,7 +354,7 @@
         .on("mouseover", handleMouseOver)
         .on("mouseout", handleMouseOut);
 
-<<<<<<< HEAD
+
       
        function handleMouseOver(event,d) {                            // handle mouseout event
                                                                    // Select the hovered element and update its text or class based on data
@@ -380,15 +377,12 @@
                              
         svg.selectAll("text").remove();                              
        }
-                             //collecting all the arrays to pass to a file.
-        const combinedArray = [...random_waste, ...total_animation_time, ...delay_time, ...total_time,last_time]; 
-        console.log("Produced array length :",combinedArray.length)
 
         //Local storage usage
         localStorage.setItem('csv', JSON.stringify(combinedArray));
 
         // setInterval(()=>window.location.reload(),2000)            // WORKING reloads page after every 2s so the values get changed [FOR PIE CHART ]
-=======
+
       function handleMouseOver(event, d) {
         // handle mouseout event
         // Select the hovered element and update its text or class based on data
@@ -418,7 +412,7 @@
         last_time,
       ];
       console.log("Produced array length :", combinedArray.length);
->>>>>>> cf9bcf5c31b9a6b1d18e47a5b280f1aec94a9cbd
+
 
       //Local storage usage
       localStorage.setItem("csv", JSON.stringify(combinedArray));
