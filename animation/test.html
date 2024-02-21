@@ -15,19 +15,29 @@
         margin: 0 0;
         background-color: rgba(126, 143, 153, 0.941);
         z-index: 100;
-        background-image: url('./conveyor-removebg-preview.png');
+        background-image: url("./conve-removebg-preview.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 200px 900px;
+        
       }
-      .conveyor {
+    /* #container::before {
+        content: "";
         position: absolute;
-        object-position: center;
-        bottom: 20vh;
-        left: 20vw;
-        rotate: 90deg;
-        -webkit-user-drag: none;
-        height: 350px;
-        visibility: hidden;
-        /* z-index: 0; */
-      }
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("./conve-removebg-preview.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        transform: rotate(
+          45deg
+        ); /* Rotate the background image by 45 degrees }*/
+    
+    
+
       .button-div {
         position: absolute;
         top: 5rem;
@@ -96,7 +106,11 @@
         right: 33vw;
         visibility: visible;
       }
-      .box1, .box2 ,.box3 ,.box4,.box5{
+      .box1,
+      .box2,
+      .box3,
+      .box4,
+      .box5 {
         -webkit-user-drag: none;
       }
     </style>
@@ -104,11 +118,11 @@
   </head>
   <body>
     <svg id="container"></svg>
-    <img
+    <!-- <img
       class="conveyor"
       src="./conveyor-removebg-preview.png"
       alt="Conveyor"
-    />
+    /> -->
     <img class="colorScheme" src="./color_scheme.png" alt="ColorScheme" />
     <div class="button-div">
       <button type="submit" onclick="WasteHandle(`wet`)">Wet</button>
@@ -175,7 +189,7 @@
         AddtoWasteIntroduced(wasteType);
         console.log(" Current array is ", WasteIntroduced);
         LogSvgtotheContainer(wasteType); //calls the logger svg func()
-        localStorage.setItem("csv",JSON.stringify(WasteIntroduced)) //setting the localstorage for pie chart retrieval
+        localStorage.setItem("csv", JSON.stringify(WasteIntroduced)); //setting the localstorage for pie chart retrieval
       }
 
       function SwitchColor(d) {
@@ -245,17 +259,15 @@
           .transition()
           .duration(2000)
           .attr("cx", MoveInBox(wasteType))
-          .ease(d3.easeQuad)
+          .ease(d3.easeQuad);
 
-          svg                                        //dropped     //mouse events
-            .select('circle')
-            .on("mouseover", handleMouseOver(wasteType))
-            .on("mouseout", handleMouseOut(wasteType));
+        svg //dropped     //mouse events
+          .select("circle")
+          .on("mouseover", handleMouseOver(wasteType))
+          .on("mouseout", handleMouseOut(wasteType));
       }
 
       //positional svgs
-
-
 
       const twov2 = svg
         .append("circle")
@@ -263,7 +275,9 @@
         .attr("cy", 0.5 * window.innerHeight)
         .attr("r", 10)
         .attr("fill", "red")
-        .on("click", () => { d3.select(this).attr("fill", cyan) })
+        .on("click", () => {
+          d3.select(this).attr("fill", cyan);
+        });
 
       const twov1 = svg
         .append("circle")
