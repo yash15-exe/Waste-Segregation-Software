@@ -19,9 +19,8 @@
         background-repeat: no-repeat;
         background-position: center;
         background-size: 200px 900px;
-        
       }
-    /* #container::before {
+      /* #container::before {
         content: "";
         position: absolute;
         top: 0;
@@ -35,8 +34,6 @@
         transform: rotate(
           45deg
         ); /* Rotate the background image by 45 degrees }*/
-    
-    
 
       .button-div {
         position: absolute;
@@ -345,6 +342,20 @@
       // .duration(4000)
       // .attr("cx",30)
       // .attr("cy",80)                      //transition to a point
+
+      window.addEventListener("beforeunload", function (e) {        //remove this part of code for maintaining data while moving to next pages
+        // Cancel the event
+        e.preventDefault();
+        // Chrome requires returnValue to be set
+        e.returnValue = "";
+
+        // Execute your function here
+        clearLocalStorage();
+      });
+
+      function clearLocalStorage() {
+        localStorage.clear()
+      }
     </script>
   </body>
 </html>

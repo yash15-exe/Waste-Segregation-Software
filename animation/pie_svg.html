@@ -41,12 +41,11 @@
 
       //firstly get the data send to mongo from create_svg.html  here I might use from local storage.
       const data_from_animefile = JSON.parse(localStorage.getItem("csv"));
-      console.log("In pie file ", data_from_animefile, typeof data_from_animefile); //console logger
       
       setInterval(() => {                                       //check for added material in local storage if different reload new pie
           if (JSON.stringify(data_from_animefile) !== localStorage.getItem("csv")) {
-              console.log("inside if ",JSON.stringify(data_from_animefile) === localStorage.getItem("csv"));
-              window.location.reload();
+                console.log("inside if ",JSON.stringify(data_from_animefile) === localStorage.getItem("csv"));
+                window.location.reload(); 
             }
     }, 2000);
 
