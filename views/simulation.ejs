@@ -3,168 +3,195 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Waste Material Transition</title>
+    <title>Simulation</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-      body {
+      html {
         font-size: 62.5%;
         margin: 0 0;
-        /* overflow:hidden; */
       }
-      ::-webkit-scrollbar {
-        /*  SCROLLBAR CSS */
-        width: 10px;
-      }
-      ::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 5px #000000;
-        border-radius: 15px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: linear-gradient(to bottom, #2152c6, #eb2d66);
-        border-radius: 10px;
-      }
-      #svg-container {
-        width: 100vw;
+      #container {
         height: 100vh;
-        background: linear-gradient(to bottom, #c2c2c2, #dadada);
+        width: 100vw;
+        margin: 0 0;
+        background-color: rgba(126, 143, 153, 0.941);
+        z-index: 100;
+        background-image: url("/images/conve-removebg-preview.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 180px 850px;
       }
+      /* #container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("./conve-removebg-preview.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        transform: rotate(
+          45deg
+        ); /* Rotate the background image by 45 degrees }*/
 
-      .svg-snoweb {
+      .button-div {
         position: absolute;
-        left: 49.9vw;
-        visibility: visible;
+        top: 5rem;
+        text-align: center;
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+        border: 3px solid rgba(0, 0, 0, 0.717);
+        border-radius: 10px;
+        /* z-index: 100; */
       }
-      .funnel {
+      button {
+        background-color: transparent;
+        border: 2px solid hsla(223, 90%, 49%, 0.863);
+        border-radius: 10px;
+        padding: 10px;
+        outline: none;
+        text-transform: uppercase;
+        font-weight: bold;
+        margin: 20px;
+      }
+      button:hover {
+        background-color: hsla(0, 0%, 100%, 0.769);
+        border: 2px solid hsla(223, 90%, 49%, 0.708);
+        color: hsla(223, 90%, 49%, 0.863);
+      }
+      .colorScheme {
         position: absolute;
-        top: 27.5vh;
-        left: 46.5vw;
-        visibility: visible;
+        top: 5rem;
+        right: 10rem;
+        scale: 0.8;
+        box-shadow: 5px 5px 10px hsla(60, 6%, 19%, 0.772),
+          10px 10px 10px hsla(60, 6%, 19%, 0.772);
+        border-radius: 4rem;
         -webkit-user-drag: none;
-      }
-      .bin {
-        position: absolute;
-        top: 74vh;
-        left: 19.6vw;
+        /* z-index: 0; */
         visibility: visible;
-        -webkit-user-drag: none;
       }
-      .color_scheme {
+      circle.waste {
         position: absolute;
-        top: 5vh;
-        right: 7vw;
-        /* border: 10px solid #2b2b2b ; */
-        border-radius: 15%;
-        box-shadow: 5px 5px 5px #141414, 10px 10px 10px #535353;
+        /* z-index: 1000; */
+      }
+      /* #frame{
+        position: absolute;
+        background-color: transparent;
+        height: 100%;
+        width: 100%;
+        z-index:1011 ;
+      } */
+      .image-container1 {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 40vh;
+        gap: 3rem;
+        left: 33vw;
+        visibility: visible;
+      }
+      .image-container2 {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 45vh;
+        gap: 4rem;
+        right: 35vw;
+        visibility: visible;
+      }
+      .box1,
+      .box2,
+      .box3,
+      .box4,
+      .box5 {
         -webkit-user-drag: none;
       }
     </style>
+    <title>D3.js</title>
   </head>
   <body>
-    <img class="bin" src="/images/bins.png" alt="BINS" />
-    <svg
-      class="svg-snoweb"
-      height="100"
-      preserveaspectratio="none"
-      viewbox="0 0 10 10"
-      width="100"
-      x="0"
-      xmlns="http://www.w3.org/2000/svg"
-      y="0"
-    >
-      <rect class="svg-fill-primary" height="7" width="5"></rect>
-    </svg>
-    <svg id="svg-container"></svg>
-    <img
-      class="funnel"
-      src="/images/funnel-removebg-preview.png"
-      alt="Funnel"
-      width="150"
-    />
-    <img
-      class="color_scheme"
-      src="/images/color_scheme.png"
-      alt="Color_Scheme"
-      width="250"
-    />
+    <svg id="container"></svg>
+    <!-- <img
+      class="conveyor"
+      src="./conveyor-removebg-preview.png"
+      alt="Conveyor"
+    /> -->
+    <img class="colorScheme" src="/images/color_scheme.png" alt="ColorScheme" />
+    <div class="button-div">
+      <button type="submit" onclick="WasteHandle(`wet`)">Wet</button>
+      <button type="submit" onclick="WasteHandle(`metal`)">Metal</button>
+      <button type="submit" onclick="WasteHandle(`plastic`)">Plastic</button>
+      <button type="submit" onclick="WasteHandle(`wood`)">Wood</button>
+      <button type="submit" onclick="WasteHandle(`paper`)">Paper</button>
+    </div>
+    <!-- <div class="frame-container">
+        <svg id="frame"></svg>
+    </div> -->
+    <div class="image-container1">
+      <img
+        class="box1"
+        src="/images/box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+      <img
+        class="box2"
+        src="/images/box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+      <img
+        class="box3"
+        src="/images/box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+    </div>
+    <div class="image-container2">
+      <img
+        class="box4"
+        src="/images/box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+      <img
+        class="box5"
+        src="/images/box-removebg-preview.png"
+        alt="Box"
+        height="120rem"
+        width="120rem"
+      />
+    </div>
 
     <script>
-      //   // Define parameters for waste materials
-      //   const wasteTypes = ["type1", "type2", "type3", "type4", "type5"];
-      //   const numWaste = 50; // Number of waste materials
+      const svg = d3.select("#container");
+      const WasteIntroduced = []; //main array
 
-      //   // Create SVG container
-      //   const svg = d3.select("#svg-container");
+      function AddtoWasteIntroduced(Waste) {
+        //adds incoming waste to the main array for passing data to db
+        WasteIntroduced.push(Waste);
+      }
 
-      //   // Generate random data for waste materials
-      //   const data = d3.range(numWaste).map(() => ({
-      //     type: wasteTypes[Math.floor(Math.random() * wasteTypes.length)],
-      //     x: Math.random() * window.innerWidth, // Random x position
-      //     y: 0, // Start from top of the page
-      //   }));
+      function WasteHandle(wasteType) {
+        //handles incoming waste and adds it to the main array
+        console.log("Waste introduced is ", wasteType);
+        AddtoWasteIntroduced(wasteType);
+        console.log(" Current array is ", WasteIntroduced);
+        LogSvgtotheContainer(wasteType); //calls the logger svg func()
+        localStorage.setItem("csv", JSON.stringify(WasteIntroduced)); //setting the localstorage for pie chart retrieval
+      }
 
-      //   // Append waste material shapes
-      //   const waste = svg
-      //     .selectAll(".waste")
-      //     .data(data)
-      //     .enter()
-      //     .append("circle")
-      //     .attr("class", "waste")
-      //     .attr("cx", (d) => d.x)
-      //     .attr("cy", (d) => d.y)
-      //     .attr("r", 5) // Adjust the size of the waste material shapes
-      //     .attr("fill", (d) => {
-      //       // Assign color based on type
-      //       // You can customize this based on your requirements
-      //       switch (d.type) {
-      //         case "type1":
-      //           return "red";
-      //         case "type2":
-      //           return "blue";
-      //         case "type3":
-      //           return "green";
-      //         case "type4":
-      //           return "yellow";
-      //         case "type5":
-      //           return "purple";
-      //         default:
-      //           return "black";
-      //       }
-      //     });
-
-      //   // Transition the waste materials from top to bottom
-      //   waste
-      //     .transition()
-      //     .duration(10000) // Adjust duration as needed
-      //     .attr("cy", window.innerHeight - 10) // Adjust the final position
-      //     .ease(d3.easeLinear); // Adjust easing function if needed
-
-      //   // Implement segregation logic if necessary
-      //   // For example, you can filter the data based on type and adjust
-      //   //the final position accordingly
-      //   -----------------------------------------------------------------------------------------------------------------------------------------------
-      // Wet: #4AC9E3 (Aqua Blue)
-      // Metal: #A9A9A9 (Silver Gray)
-      // Plastic: #FF5733 (Bright Red)
-      // Wood: #8B4513 (Warm Brown)
-      // Paper: #F5F5F5 (Off-White)
-
-      //Input field value can be stored in WasteNum
-      //  const wasteNum=document.getElementById("INPUT_FIELD")
-      const wasteNum = 50;
-      // start sorting -- maintain a bool var for it.[Numeric value 0 or 1]
-      // const start_sorting=true;
-
-      const startTime = performance.now(); // Get the start time
-
-      const range = d3.range(wasteNum); //previously stored range(3)
-
-      const wasteTypes = ["wet", "metal", "paper", "plastic", "wood"];
-      const random_waste = d3.range(wasteNum).map(() => {
-        return wasteTypes[Math.floor(Math.random() * wasteTypes.length)];
-      });
-      console.log(random_waste);
-
-      function switchColor(d) {
+      function SwitchColor(d) {
+        //Provides specified color to the svgs   ___Called below
         switch (d) {
           case "wet":
             return "#4AC9E3";
@@ -178,122 +205,100 @@
             return "#F5F5F5";
         }
       }
-      const animation_time = 3000; //3 seconds
-      const total_animation_time = d3.range(wasteNum).map((d) => {
-        return Math.floor(Math.random() * 100 * animation_time);
-      }); //range var is used here.[OLD]
-      console.log(total_animation_time);
 
-      const delay_time = d3
-        .range(wasteNum)
-        .map((e) => Math.floor(((e % 4) + 1) * Math.random() * 1000)); //expected to have 1 to 4s delay(inclusive)
-      console.log(delay_time);
-
-      const total_time = range.map(
-        (d, i) => 9000 + total_animation_time[i] + delay_time[i]
-      ); //calculates total time for a number of elements(50 here)
-      console.log(total_time);
-
-      const svg = d3.select("#svg-container");
-      const waste = svg
-        .selectAll(".waste")
-        .data(random_waste)
-        .enter()
-        .append("circle")
-        .attr("class", "waste")
-        .attr("cx", 0.514 * window.innerWidth) //790  //.attr("cx", (d)=>{ return Math.floor(Math.random()*window.innerWidth)})
-        .attr("cy", 0) //0
-        .attr("r", 10)
-        .attr("fill", switchColor)
-
-        .transition()
-        .duration((d, i) => {
-          return total_animation_time[i];
-        }) //0-300seconds [or 3000ms :) ] range  ---CAN BE REGULAR INTERVAL WITH [animation_time becomes time for whole completion]
-        //(d,i)=>{ return (i*animation_time)}          --- w/o data storage capability (d)=>{ return Math.floor(Math.random()*100*animation_time)}
-        .attr("cy", 0.01 * window.innerHeight)
-        .ease(d3.easeLinear) //ADDS DELAY AND RANDOMNESS TO THE FLOW OF WASTE.(another state is provided above)
-
-        .transition() //upto the funnel
-        .duration(2000)
-        .attr("cy", 0.375 * innerHeight)
-        .ease(d3.easeLinear)
-
-        .transition() //ADDing arbitrary delay within the funnel
-        .duration((d, i) => {
-          return delay_time[i];
-        }) //w/o index--(range.map((e)=>e+1)[Math.floor(Math.random()*range.length)])*1000
-        .attr("cy", 0.494 * window.innerHeight)
-        .ease(d3.easeLinear)
-
-        .transition() //# SEGREGATING #
-        .duration(2000) //2000 can be stored in a var to manipulate for different inputs
-        .attr("cx", (d) => {
-          //"wet", "metal", "paper", "plastic", "wood"
-          switch (d) {
-            case "wet":
-              return 0.68 * window.innerWidth;
-            case "metal":
-              return 0.46 * window.innerWidth;
-            case "plastic":
-              return 0.38 * window.innerWidth;
-            case "wood":
-              return 0.3 * window.innerWidth;
-            case "paper":
-              return 0.225 * window.innerWidth;
-          }
-        })
-        .ease(d3.easeExp)
-
-        .transition() //end transition
-        .duration(5000)
-        .attr("cy", window.innerHeight - 14)
-        .ease(d3.easeLinear);
-      // .attr("cx",(d)=>{ return  (Math.random()*window.innerWidth)}) - only looks good
-
-      const positional_test_svg = svg
-        .append("circle") //test svg
-        .attr("cx", 0.514 * window.innerWidth) // Adjust the x-coordinate as needed
-        .attr("cy", 0.494 * window.innerHeight) // Adjust the y-coordinate as needed
-        .attr("r", 10) // Adjust the radius as needed
-        .attr("fill", "orange"); // Adjust the fill color as needed
-
-      const last_time = Math.max(...total_time); //CALCing max time and the index
-      const index = total_time.indexOf(last_time);
-      console.log("\nLast TIME is ", last_time, " Indexed at ", index);
-
-      //formatted total_time array with commas same as array 4 printed in console but with commmas.
-      // Function to format a number with commas
-
-      const formatted_total_time = total_time.map((number) =>
-        number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-      ); // !!string format DONT USE
-      console.log(formatted_total_time);
-
-      //**THE START VARIABLE IS PLACED AT THE TOP FOR BETTER MEASUREMENT**//
-
-      const interval_time = 10000; //Interval variable
-      // Function to calculate and log elapsed time
-      function logElapsedTime() {
-        let currentTime = performance.now(); // Get the current time
-        let elapsedTime = currentTime - startTime; // Calculate elapsed time
-        console.log("Elapsed time:", elapsedTime.toFixed(2), "milliseconds"); // Log elapsed time
-        if (elapsedTime >= last_time + 6 * interval_time)
-          clearInterval(intervalId); //checking time passed with the last time (adding a value for better margin)
+      function UptoBox(wasteType) {
+        switch (wasteType) {
+          case "wet":
+            return 0.45 * window.innerHeight;
+          case "metal":
+            return 0.65 * window.innerHeight;
+          case "plastic":
+            return 0.85 * window.innerHeight;
+          case "wood":
+            return 0.5 * window.innerHeight;
+          case "paper":
+            return 0.75 * window.innerHeight;
+        }
       }
 
-      // Call logElapsedTime function
-      const intervalId = setInterval(logElapsedTime, interval_time);
+      function MoveInBox(wasteType) {
+        switch (wasteType) {
+          case "wet":
+            return 0.35 * window.innerWidth;
+          case "metal":
+            return 0.35 * window.innerWidth;
+          case "plastic":
+            return 0.35 * window.innerWidth;
+          case "wood":
+            return 0.59 * window.innerWidth;
+          case "paper":
+            return 0.59 * window.innerWidth;
+        }
+      }
+
+      function LogSvgtotheContainer(wasteType) {
+        //logs svg to the svg container
+
+        svg
+          //removed class data enter
+          .append("circle")
+          .attr("class", "wastes")
+          .attr("cx", 0.5 * innerWidth)
+          .attr("cy", 10)
+          .attr("r", 10)
+          .attr("fill", SwitchColor(wasteType))
+
+          .transition()
+          .duration(3000)
+          .attr("cx", 0.5 * innerWidth)
+          .attr("cy", UptoBox(wasteType))
+          .ease(d3.easeLinear)
+
+          .transition()
+          .duration(2000)
+          .attr("cx", MoveInBox(wasteType))
+          .ease(d3.easeQuad);
+
+        svg //dropped     //mouse events
+          .select("circle")
+          .on("mouseover", handleMouseOver(wasteType))
+          .on("mouseout", handleMouseOut(wasteType));
+      }
+
+      //positional svgs
+
+      const twov2 = svg
+        .append("circle")
+        .attr("cx", 0.56 * window.innerWidth)
+        .attr("cy", 0.5 * window.innerHeight)
+        .attr("r", 10)
+        .attr("fill", "red")
+        .on("click", () => {
+          d3.select(this).attr("fill", cyan);
+        });
+
+      const twov1 = svg
+        .append("circle")
+        .attr("cx", 0.44 * window.innerWidth)
+        .attr("cy", 0.5 * window.innerHeight)
+        .attr("r", 10)
+        .attr("fill", "red");
+      const lv1 = svg
+        .append("circle")
+        .attr("cx", 0.44 * window.innerWidth)
+        .attr("cy", 10)
+        .attr("r", 10)
+        .attr("fill", "red");
+      const lvtwo = svg
+        .append("circle")
+        .attr("cx", 0.56 * window.innerWidth)
+        .attr("cy", 10)
+        .attr("r", 10)
+        .attr("fill", "red");
 
       //  Add event listeners for mouseover and mouseout to the SVG elements
-      svg
-        .selectAll(".waste")
-        .on("mouseover", handleMouseOver)
-        .on("mouseout", handleMouseOut);
 
       function handleMouseOver(event, d) {
-        // handle mouseout event
-        // Select the hovered element and update its text or class based on data
         d3.select(this).attr("fill", "cyan");
         console.log("Mouseover on element with data: ", d); //logs data in the console
 
@@ -302,29 +307,42 @@
           .attr("x", d3.select(this).attr("cx")) // Adjust position based on the hovered element's coordinates
           .attr("y", d3.select(this).attr("cy") - 10) // Adjust position based on the hovered element's coordinates
           .text(d) // Set text content to the data associated with the hovered element
-          .attr("fill", "magenta"); // Set text color
+          .style("font-size", "20px")
+          .attr("fill", "magenta");
       }
       // handle mouseout event
       function handleMouseOut(event, d) {
         // Revert the changes made during mouseover
-        d3.select(this).text("").attr("fill", switchColor); //changing back the color to specifed one
+        d3.select(this).text("").attr("fill", SwitchColor); //changing back the color to specifed one
 
         svg.selectAll("text").remove();
       }
-      //collecting all the arrays to pass to a file.
-      const combinedArray = [
-        ...random_waste,
-        ...total_animation_time,
-        ...delay_time,
-        ...total_time,
-        last_time,
-      ];
-      console.log("Produced array length :", combinedArray.length);
 
-      //Local storage usage
-      localStorage.setItem("csv", JSON.stringify(combinedArray));
+      // for(let i=0;i<5;i++){                    //for checking purpose
+      //     setInterval(()=>{
+      //             svg.append("circle")
+      //             .attr("cx", 0.5 * window.innerWidth)
+      //             .attr("cy", 10)
+      //             .attr("r", 10)
+      //             .attr("fill", "red")                 //appends a circle
 
-      // setInterval(()=>window.location.reload(),2000)            // WORKING reloads page after every 2s so the values get changed [FOR PIE CHART ]
+      //             .transition()
+      //             .duration(4000)
+      //             .attr("cx", 30)
+      //             .attr("cy", 80)                       //transition to a point
+      //     },2000)
+      // }
+
+      // svg.append("circle")
+      // .attr("cx", 0.5 * window.innerWidth)
+      // .attr("cy",10)
+      // .attr("r",10)
+      // .attr("fill","red")                 //appends a circle
+
+      // .transition()
+      // .duration(4000)
+      // .attr("cx",30)
+      // .attr("cy",80)                      //transition to a point
     </script>
   </body>
 </html>
