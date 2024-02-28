@@ -17,6 +17,7 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 let userIsAuthenticated = false;
 
 app.set("view engine", "ejs");
@@ -130,12 +131,11 @@ app.post("/addWaste", (req, res) => {
     id: id,
     type: `${type}`,
   });
-  console.log(id);
   res.send(id);
 });
 
 //Activating the server//////////////////////////////////////////////////////////////////////////////////
 
-server.listen(process.env.PORT, () => {
-  console.log(`Server listening on Port ${process.env.PORT}`);
+server.listen(process.env.PORT||5000, () => {
+  console.log(`Server listening on Port ${process.env.PORT||5000}`);
 });
