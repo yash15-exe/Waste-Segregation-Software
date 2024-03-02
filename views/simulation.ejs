@@ -75,6 +75,7 @@
       }
       .colorScheme {
         position: absolute;
+        height: 25rem;
         top: 3vh;
         right: 5vw;
         scale: 0.8;
@@ -144,7 +145,7 @@
         <button type="submit" onclick="WasteHandle(`wet`)">Wet</button>
         <button type="submit" onclick="WasteHandle(`metal`)">Metal</button>
         <button type="submit" onclick="WasteHandle(`plastic`)">Plastic</button>
-        <button type="submit" onclick="WasteHandle(`wood`)">Wood</button>
+        <button type="submit" onclick="WasteHandle(`wood`)">Glass</button>
         <button type="submit" onclick="WasteHandle(`paper`)">Paper</button>
       </div>
       <!-- <div class="frame-container">
@@ -207,8 +208,65 @@
         console.log(" Current array is ", WasteIntroduced);
         LogSvgtotheContainer(wasteType); //calls the logger svg func()
         localStorage.setItem("csv", JSON.stringify(WasteIntroduced)); //setting the localstorage for pie chart retrieval
-      }
 
+        if (wasteType == "wet") {
+          fetch("http://localhost:5000/addWaste", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ type: 1 }),
+          }).then(() => {
+            console.log("element added");
+          });
+        }
+
+        if (wasteType == "metal") {
+          fetch("http://localhost:5000/addWaste", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ type: 2 }),
+          }).then(() => {
+            console.log("element added");
+          });
+        }
+
+        if (wasteType == "plastic") {
+          fetch("http://localhost:5000/addWaste", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ type: 4 }),
+          }).then(() => {
+            console.log("element added");
+          });
+        }
+        if (wasteType == "wood") {
+          fetch("http://localhost:5000/addWaste", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ type: 5 }),
+          }).then(() => {
+            console.log("element added");
+          });
+        }
+        if (wasteType == "paper") {
+          fetch("http://localhost:5000/addWaste", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ type: 3 }),
+          }).then(() => {
+            console.log("element added");
+          });
+        }
+      }
       function SwitchColor(d) {
         //Provides specified color to the svgs   ___Called below
         switch (d) {
