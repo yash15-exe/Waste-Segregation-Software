@@ -3,13 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulation</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
+      * {
+        scroll-behavior: smooth;
+        -webkit-user-drag: none;
+        -webkit-user-select: none;
+        user-select: none;
+        margin: 0px 0px;
+      }
       html {
         font-size: 62.5%;
         margin: 0 0;
       }
+
       #container {
         height: 100vh;
         width: 100vw;
@@ -19,7 +26,10 @@
         background-image: url("/images/conve-removebg-preview.png");
         background-repeat: no-repeat;
         background-position: center;
-        background-size: 180px 850px;
+        background-size: 13vw 100vh;
+      }
+      body {
+        overflow: hidden;
       }
       /* #container::before {
         content: "";
@@ -65,15 +75,18 @@
       }
       .colorScheme {
         position: absolute;
-        top: 5rem;
-        right: 10rem;
+        top: 3vh;
+        right: 5vw;
         scale: 0.8;
         box-shadow: 5px 5px 10px hsla(60, 6%, 19%, 0.772),
           10px 10px 10px hsla(60, 6%, 19%, 0.772);
         border-radius: 4rem;
         -webkit-user-drag: none;
-        /* z-index: 0; */
+        transition: all 0.2s ease-in-out;
         visibility: visible;
+      }
+      .colorScheme:hover {
+        scale: 0.9;
       }
       circle.waste {
         position: absolute;
@@ -90,18 +103,18 @@
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 40vh;
-        gap: 3rem;
-        left: 33vw;
+        top: 38vh;
+        gap: 2vw;
+        left: 32vw;
         visibility: visible;
       }
       .image-container2 {
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 45vh;
-        gap: 4rem;
-        right: 35vw;
+        top: 43vh;
+        gap: 3vw;
+        right: 30vw;
         visibility: visible;
       }
       .box1,
@@ -115,61 +128,67 @@
     <title>D3.js</title>
   </head>
   <body>
-    <svg id="container"></svg>
-    <!-- <img
-      class="conveyor"
-      src="./conveyor-removebg-preview.png"
-      alt="Conveyor"
-    /> -->
-    <img class="colorScheme" src="/images/color_scheme.png" alt="ColorScheme" />
-    <div class="button-div">
-      <button type="submit" onclick="WasteHandle(`wet`)">Wet</button>
-      <button type="submit" onclick="WasteHandle(`metal`)">Metal</button>
-      <button type="submit" onclick="WasteHandle(`plastic`)">Plastic</button>
-      <button type="submit" onclick="WasteHandle(`wood`)">Wood</button>
-      <button type="submit" onclick="WasteHandle(`paper`)">Paper</button>
-    </div>
-    <!-- <div class="frame-container">
-        <svg id="frame"></svg>
-    </div> -->
-    <div class="image-container1">
+    <div class="parent">
+      <svg id="container"></svg>
+      <!-- <img
+        class="conveyor"
+        src="./conveyor-removebg-preview.png"
+        alt="Conveyor"
+      /> -->
       <img
-        class="box1"
-        src="/images/box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
+        class="colorScheme"
+        src="/images/color_scheme.png"
+        alt="ColorScheme"
       />
-      <img
-        class="box2"
-        src="/images/box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
-      />
-      <img
-        class="box3"
-        src="/images/box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
-      />
-    </div>
-    <div class="image-container2">
-      <img
-        class="box4"
-        src="/images/box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
-      />
-      <img
-        class="box5"
-        src="/images/box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
-      />
+      <div class="button-div">
+        <button type="submit" onclick="WasteHandle(`wet`)">Wet</button>
+        <button type="submit" onclick="WasteHandle(`metal`)">Metal</button>
+        <button type="submit" onclick="WasteHandle(`plastic`)">Plastic</button>
+        <button type="submit" onclick="WasteHandle(`wood`)">Wood</button>
+        <button type="submit" onclick="WasteHandle(`paper`)">Paper</button>
+      </div>
+      <!-- <div class="frame-container">
+          <svg id="frame"></svg>
+      </div> -->
+      <div class="image-container1">
+        <img
+          class="box1"
+          src="/images/box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+        <img
+          class="box2"
+          src="/images/box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+        <img
+          class="box3"
+          src="/images/box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+      </div>
+      <div class="image-container2">
+        <img
+          class="box4"
+          src="/images/box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+        <img
+          class="box5"
+          src="/images/box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+      </div>
     </div>
 
     <script>
@@ -230,9 +249,9 @@
           case "plastic":
             return 0.35 * window.innerWidth;
           case "wood":
-            return 0.59 * window.innerWidth;
+            return 0.65 * window.innerWidth;
           case "paper":
-            return 0.59 * window.innerWidth;
+            return 0.65 * window.innerWidth;
         }
       }
 
@@ -259,10 +278,10 @@
           .attr("cx", MoveInBox(wasteType))
           .ease(d3.easeQuad);
 
-        svg //dropped     //mouse events
-          .select("circle")
-          .on("mouseover", handleMouseOver(wasteType))
-          .on("mouseout", handleMouseOut(wasteType));
+        // svg //dropped     //mouse events
+        //   .select("circle")
+        //   .on("mouseover", handleMouseOver(wasteType))
+        //   .on("mouseout", handleMouseOut(wasteType));
       }
 
       //positional svgs
@@ -343,6 +362,10 @@
       // .duration(4000)
       // .attr("cx",30)
       // .attr("cy",80)                      //transition to a point
+
+      function clearLocalStorage() {
+        localStorage.clear();
+      }
     </script>
   </body>
 </html>

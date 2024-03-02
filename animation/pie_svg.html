@@ -35,24 +35,31 @@
       <svg id="pie-chart"></svg>
     </div>
 
-                    <!-- Does'nt account for page reload in test.htm -->
+    <!-- Does'nt account for page reload in test.htm -->
 
     <script>
+
       // setInterval(()=>window.location.reload(),2000)            //!WORKING   reloads page after every 2s so the values get changed [FOR PIE CHART ]
 
       //firstly get the data send to mongo from create_svg.html  here I might use from local storage.
       const data_from_animefile = JSON.parse(localStorage.getItem("csv"));
-      
-      setInterval(() => {                                       //check for added material in local storage if different reload new pie
-          if (JSON.stringify(data_from_animefile) !== localStorage.getItem("csv")) {
-                console.log("inside if ",JSON.stringify(data_from_animefile) === localStorage.getItem("csv"));
-                window.location.reload(); 
-            }
-    }, 2000);
 
+      setInterval(() => {
+        //check for added material in local storage if different reload new pie
+        if (
+          JSON.stringify(data_from_animefile) !== localStorage.getItem("csv")
+        ) {
+          console.log(
+            "inside if ",
+            JSON.stringify(data_from_animefile) === localStorage.getItem("csv")
+          );
+          window.location.reload();
+        }
+      }, 2000);
 
+      [10, 4387, 3878, 392, 32798];
       const random_waste = data_from_animefile; //considering batches are made for 50--previously valid (diff now)
-      console.log(random_waste)
+      console.log(random_waste);
 
       // Filter the array to include only elements that match the searchString and then find the length
       function findLength(searchString) {

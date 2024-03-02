@@ -16,6 +16,7 @@
         font-size: 62.5%;
         margin: 0 0;
       }
+      
       #container {
         height: 100vh;
         width: 100vw;
@@ -127,62 +128,65 @@
     <title>D3.js</title>
   </head>
   <body>
-    <svg id="container"></svg>
-    <!-- <img
-      class="conveyor"
-      src="./conveyor-removebg-preview.png"
-      alt="Conveyor"
-    /> -->
-    <img class="colorScheme" src="./color_scheme.png" alt="ColorScheme" />
-    <div class="button-div">
-      <button type="submit" onclick="WasteHandle(`wet`)">Wet</button>
-      <button type="submit" onclick="WasteHandle(`metal`)">Metal</button>
-      <button type="submit" onclick="WasteHandle(`plastic`)">Plastic</button>
-      <button type="submit" onclick="WasteHandle(`wood`)">Wood</button>
-      <button type="submit" onclick="WasteHandle(`paper`)">Paper</button>
+    <div class="parent">
+      <svg id="container"></svg>
+      <!-- <img
+        class="conveyor"
+        src="./conveyor-removebg-preview.png"
+        alt="Conveyor"
+      /> -->
+      <img class="colorScheme" src="./color_scheme.png" alt="ColorScheme" />
+      <div class="button-div">
+        <button type="submit" onclick="WasteHandle(`wet`)">Wet</button>
+        <button type="submit" onclick="WasteHandle(`metal`)">Metal</button>
+        <button type="submit" onclick="WasteHandle(`plastic`)">Plastic</button>
+        <button type="submit" onclick="WasteHandle(`wood`)">Wood</button>
+        <button type="submit" onclick="WasteHandle(`paper`)">Paper</button>
+      </div>
+      <!-- <div class="frame-container">
+          <svg id="frame"></svg>
+      </div> -->
+      <div class="image-container1">
+        <img
+          class="box1"
+          src="./box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+        <img
+          class="box2"
+          src="./box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+        <img
+          class="box3"
+          src="./box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+      </div>
+      <div class="image-container2">
+        <img
+          class="box4"
+          src="./box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+        <img
+          class="box5"
+          src="./box-removebg-preview.png"
+          alt="Box"
+          height="120rem"
+          width="120rem"
+        />
+      </div>
     </div>
-    <!-- <div class="frame-container">
-        <svg id="frame"></svg>
-    </div> -->
-    <div class="image-container1">
-      <img
-        class="box1"
-        src="./box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
-      />
-      <img
-        class="box2"
-        src="./box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
-      />
-      <img
-        class="box3"
-        src="./box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
-      />
-    </div>
-    <div class="image-container2">
-      <img
-        class="box4"
-        src="./box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
-      />
-      <img
-        class="box5"
-        src="./box-removebg-preview.png"
-        alt="Box"
-        height="120rem"
-        width="120rem"
-      />
-    </div>
+   
 
     <script>
       const svg = d3.select("#container");
