@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
+      * {
+        scroll-behavior: smooth;
+        -webkit-user-drag: none;
+        -webkit-user-select: none;
+        user-select: none;
+        margin: 0px 0px;
+      }
       html {
         font-size: 62.5%;
         margin: 0 0;
@@ -18,7 +25,10 @@
         background-image: url("./conve-removebg-preview.png");
         background-repeat: no-repeat;
         background-position: center;
-        background-size: 200px 900px;
+        background-size: 13vw 100vh;
+      }
+      body {
+        overflow: hidden;
       }
       /* #container::before {
         content: "";
@@ -64,15 +74,18 @@
       }
       .colorScheme {
         position: absolute;
-        top: 5rem;
-        right: 10rem;
+        top: 3vh;
+        right: 5vw;
         scale: 0.8;
         box-shadow: 5px 5px 10px hsla(60, 6%, 19%, 0.772),
           10px 10px 10px hsla(60, 6%, 19%, 0.772);
         border-radius: 4rem;
         -webkit-user-drag: none;
-        /* z-index: 0; */
+        transition: all 0.2s ease-in-out;
         visibility: visible;
+      }
+      .colorScheme:hover {
+        scale: 0.9;
       }
       circle.waste {
         position: absolute;
@@ -89,18 +102,18 @@
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 40vh;
-        gap: 6rem;
-        left: 33vw;
+        top: 38vh;
+        gap: 2vw;
+        left: 32vw;
         visibility: visible;
       }
       .image-container2 {
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 45vh;
-        gap: 4rem;
-        right: 35vw;
+        top: 43vh;
+        gap: 3vw;
+        right: 30vw;
         visibility: visible;
       }
       .box1,
@@ -229,9 +242,9 @@
           case "plastic":
             return 0.35 * window.innerWidth;
           case "wood":
-            return 0.59 * window.innerWidth;
+            return 0.65 * window.innerWidth;
           case "paper":
-            return 0.59 * window.innerWidth;
+            return 0.65 * window.innerWidth;
         }
       }
 
@@ -258,10 +271,10 @@
           .attr("cx", MoveInBox(wasteType))
           .ease(d3.easeQuad);
 
-        svg //dropped     //mouse events
-          .select("circle")
-          .on("mouseover", handleMouseOver(wasteType))
-          .on("mouseout", handleMouseOut(wasteType));
+        // svg //dropped     //mouse events
+        //   .select("circle")
+        //   .on("mouseover", handleMouseOver(wasteType))
+        //   .on("mouseout", handleMouseOut(wasteType));
       }
 
       //positional svgs
@@ -342,6 +355,10 @@
       // .duration(4000)
       // .attr("cx",30)
       // .attr("cy",80)                      //transition to a point
+
+      function clearLocalStorage() {
+        localStorage.clear();
+      }
     </script>
   </body>
 </html>
