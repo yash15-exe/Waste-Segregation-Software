@@ -8,6 +8,7 @@
     <style>
       body {
         overflow: hidden;
+        margin: 0px 0px;
       }
       .svg-container {
         display: flex;
@@ -34,123 +35,112 @@
       <svg id="pie-chart"></svg>
     </div>
 
+    <!-- Does'nt account for page reload in test.htm -->
+
     <script>
-      // setInterval(()=>window.location.reload(),2000)            //!WORKING   reloads page after every 2s so the values get changed [FOR PIE CHART ]
+      const type = [1, 2, 3, 4, 5, 6];
+      const dataObject = {};
 
-      //firstly get the data send to mongo from create_svg.html  here I might use from local storage.
-      const data_from_animefile = JSON.parse(localStorage.getItem("csv"));
-      console.log("In pie file ", data_from_animefile);
+      const getDataObject = async () => {
+        for (let i = 0; i < type.length; i++) {
+          await fetch("http://localhost:5000/data", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ type: type[i] }),
+          })
+            .then((response) => response.json()) // Parse the response as JSON
+            .then((data) => {
+              if (i == 0) {
+                dataObject.wet = data.count;
+              }
+              if (i == 1) {
+                dataObject.metal = data.count;
+              }
+              if (i == 2) {
+                dataObject.paper = data.count;
+              }
+              if (i == 3) {
+                dataObject.plastic = data.count;
+              }
+              if (i == 4) {
+                dataObject.glass = data.count;
+              }
+              if (i == 5) {
+                dataObject.ewaste = data.count;
+              }
+            });
+        }
+        data = [
+          { category: "wet", value: dataObject.wet }, //{FROM FETCH -ONLY THIS PLACE NEEDS TO BE UPDATED-BELOW CODE IS GOOD]}
+          { category: "metal", value: dataObject.metal },
+          { category: "plastic", value: dataObject.plastic },
+          { category: "glass", value: dataObject.glass },
+          { category: "paper", value: dataObject.paper },
+          { category: "ewaste", value: dataObject.ewaste },
+        ];
 
-      const random_waste = data_from_animefile.slice(0, 50); //considering batches are made for 50
-      console.log(random_waste);
+        const width = 700;
+        const height = 700;
+        const radius = Math.min(width, height) / 2;
 
-      // Filter the array to include only elements that match the searchString and then find the length
-      function findLength(searchString) {
-        //AFTER FETCH _NO MORE NEEDED
-        return random_waste.filter((item) => item === searchString).length;
-      }
+        // Set up color scale
+        console.log(data);
+        const color = d3
+          .scaleOrdinal()
+          .domain(data.map((d) => d.category))
+          .range([
+            "#4AC9E3",
+            "#A9A9A9",
+            "#FF5733",
+            "#8B4513",
+            "#F5F5F5",
+            "#212121",
+          ]); //color scheme decided in create_svg.htm
 
-      //fetch request from db to collect wastetypes Count.
-      // FETCH OBJ PROVIDES COUNT FOR ALL TYPES OF WASTE
+        // Create pie layout
+        const pie = d3.pie().value((d) => d.value);
 
-      //IF RETRIEVING FROM A MONGO DB HOSTED ON ANOTHER DEVICE.
+        // Create arc generator
+        const arc = d3
+          .arc()
+          .innerRadius(15) //The hole in the center , to avoid value = 0.
+          .outerRadius(radius);
 
-      // 1.npm i mongodb
-      // 2.// Import the MongoDB client
-      //     const { MongoClient } = require('mongodb');
+        // Create SVG element
+        const svg = d3
+          .select("#pie-chart")
+          .attr("width", width)
+          .attr("height", height)
+          .append("g")
+          .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-      //     // MongoDB connection URI
-      //     const uri = 'mongodb://username:password@hostname:port/database';
+        // Generate pie chart
+        const arcs = svg
+          .selectAll(".arc")
+          .data(pie(data))
+          .enter()
+          .append("g")
+          .attr("class", "arc");
 
-      //     // Function to retrieve data from MongoDB
-      //     async function getDataFromMongoDB() {
-      //         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        // Draw arcs
+        arcs
+          .append("path")
+          .attr("d", arc)
+          .attr("fill", (d) => color(d.data.category));
 
-      //         try {
-      //             await client.connect();
-
-      //             // Access the database and collection
-      //             const database = client.db('your_database_name');
-      //             const collection = database.collection('your_collection_name');
-
-      //             // Query MongoDB for data
-      //             const data = await collection.find({}).toArray();
-      //             return data;
-      //         } catch (error) {
-      //             console.error('Error connecting to MongoDB:', error);
-      //             return null;
-      //         } finally {
-      //             await client.close();
-      //         }
-      //     }
-
-      //     // Call the function to retrieve data
-      //     getDataFromMongoDB().then(data => {
-      //         console.log('Data from MongoDB:', data);
-      //         // Process the retrieved data as needed
-      //     });
-
-      //data
-      const data = [
-        { category: "wet", value: findLength("wet") }, //{FROM FETCH -ONLY THIS PLACE NEEDS TO BE UPDATED-BELOW CODE IS GOOD]}
-        { category: "metal", value: findLength("metal") },
-        { category: "plastic", value: findLength("plastic") },
-        { category: "wood", value: findLength("wood") },
-        { category: "paper", value: findLength("paper") },
-      ];
-      for (const d of data) {
-        console.log(d.category, " : ", d.value);
-      }
-
+        // Add labels
+        arcs
+          .append("text")
+          .attr("transform", (d) => `translate(${arc.centroid(d)})`)
+          .attr("text-anchor", "middle")
+          .attr("dy", "0.35em")
+          .text((d) => `${d.data.category}:${d.data.value}`)
+          .style("fill", "grey");
+      };
+      getDataObject();
       // Set up dimensions
-      const width = 700;
-      const height = 700;
-      const radius = Math.min(width, height) / 2;
-
-      // Set up color scale
-      const color = d3
-        .scaleOrdinal()
-        .domain(data.map((d) => d.category))
-        .range(["#4AC9E3", "#A9A9A9", "#FF5733", "#8B4513", "#F5F5F5"]); //color scheme decided in create_svg.htm
-
-      // Create pie layout
-      const pie = d3.pie().value((d) => d.value);
-
-      // Create arc generator
-      const arc = d3
-        .arc()
-        .innerRadius(15) //The hole in the center , to avoid value = 0.
-        .outerRadius(radius);
-
-      // Create SVG element
-      const svg = d3
-        .select("#pie-chart")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-      // Generate pie chart
-      const arcs = svg
-        .selectAll(".arc")
-        .data(pie(data))
-        .enter()
-        .append("g")
-        .attr("class", "arc");
-
-      // Draw arcs
-      arcs
-        .append("path")
-        .attr("d", arc)
-        .attr("fill", (d) => color(d.data.category));
-
-      // Add labels
-      arcs
-        .append("text")
-        .attr("transform", (d) => `translate(${arc.centroid(d)})`)
-        .attr("text-anchor", "middle")
-        .attr("dy", "0.35em")
-        .text((d) => d.data.category);
     </script>
   </body>
 </html>
