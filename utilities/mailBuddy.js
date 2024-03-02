@@ -1,6 +1,7 @@
 const Waste = require("../Model/wasteModel");
 const emailSender = require("./emailSender");
 function mailBuddy(receiver) {
+  
   const subject = "limit reached";
 
   let emailSent160 = false;
@@ -26,11 +27,8 @@ function mailBuddy(receiver) {
 
   async function checkLimitSendEmail(limit, type, typeSent, text) {
     const count =  await Waste.countDocuments({ type: `${type}` });
-    console.log(count);
-    console.log(typeSent);
     if (count >= limit && !typeSent) {
       emailSender(receiver, subject, text);
-      //console.log(typeSent);
       return true;
     } else {
       return typeSent;
