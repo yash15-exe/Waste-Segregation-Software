@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pie Chart with D3.js</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0px 0px;
+        }
+
+        .svg-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            animation: myanime 5s ease-in-out alternate infinite;
+        }
+
+        @keyframes myanime {
+            0% {
+                background: rgba(55, 98, 186, 0.874);
+            }
+
+            50% {
+                background: rgba(86, 193, 229, 0.874);
+            }
+
+            100% {
+                background: rgba(99, 148, 244, 0.874);
+            }
+        }
+        .colorScheme {
+            position: absolute;
+            top: 1vh;
+            left: 1vw;
+            scale: 0.7;
+            box-shadow: 5px 5px 10px hsla(60, 6%, 19%, 0.772),
+                10px 10px 10px hsla(60, 6%, 19%, 0.772);
+            border-radius: 4rem;
+            -webkit-user-drag: none;
+            transition: all 0.2s ease-in-out;
+            visibility: visible;
+        }
+
+        .colorScheme:hover {
+            scale: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <img class="colorScheme" src="./color_scheme.png" alt="color_scheme">
+    <div class="svg-container">
+        <svg id="pie-chart"></svg>
+    </div>
+
+    <!-- Does'nt account for page reload in test.htm -->
+
+    <script>
+        const type = [1, 2, 3, 4, 5, 6];
+        const dataObject = {};
+
+        const getDataObject = async () => {
+            for (let i = 0; i < type.length; i++) {
+                await fetch("http://localhost:5000/data", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ type: type[i] }),
+                })
+                    .then((response) => response.json()) // Parse the response as JSON
+                    .then((data) => {
+                        if (i == 0) {
+                            dataObject.wet = data.count;
+                        }
+                        if (i == 1) {
+                            dataObject.metal = data.count;
+                        }
+                        if (i == 2) {
+                            dataObject.paper = data.count;
+                        }
+                        if (i == 3) {
+                            dataObject.plastic = data.count;
+                        }
+                        if (i == 4) {
+                            dataObject.glass = data.count;
+                        }
+                        if (i == 5) {
+                            dataObject.ewaste = data.count;
+                        }
+                    });
+            }
+            data = [
+                { category: "wet", value: dataObject.wet }, //{FROM FETCH -ONLY THIS PLACE NEEDS TO BE UPDATED-BELOW CODE IS GOOD]}
+                { category: "metal", value: dataObject.metal },
+                { category: "plastic", value: dataObject.plastic },
+                { category: "glass", value: dataObject.glass },
+                { category: "paper", value: dataObject.paper },
+                { category: "ewaste", value: dataObject.ewaste },
+            ];
+
+            const width = 700;
+            const height = 700;
+            const radius = Math.min(width, height) / 2;
+
+            // Set up color scale
+            console.log(data);
+            const color = d3
+                .scaleOrdinal()
+                .domain(data.map((d) => d.category))
+                .range([
+                    "#4AC9E3",
+                    "#A9A9A9",
+                    "#FF5733",
+                    "#8B4513",
+                    "#F5F5F5",
+                    "#6EEB83"
+                ]); //color scheme decided in create_svg.htm
+
+            // Create pie layout
+            const pie = d3.pie().value((d) => d.value);
+
+            // Create arc generator
+            const arc = d3
+                .arc()
+                .innerRadius(15) //The hole in the center , to avoid value = 0.
+                .outerRadius(radius);
+
+            // Create SVG element
+            const svg = d3
+                .select("#pie-chart")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+            // Generate pie chart
+            const arcs = svg
+                .selectAll(".arc")
+                .data(pie(data))
+                .enter()
+                .append("g")
+                .attr("class", "arc");
+
+            // Draw arcs
+            arcs
+                .append("path")
+                .attr("d", arc)
+                .attr("fill", (d) => color(d.data.category));
+
+            // Add labels
+            arcs
+                .append("text")
+                .attr("transform", (d) => `translate(${arc.centroid(d)})`)
+                .attr("text-anchor", "middle")
+                .attr("dy", "0.35em")
+                // .text((d) => `${d.data.category}:${d.data.value}`)
+                .style("fill", "grey");
+        };
+        getDataObject();
+        // Set up dimensions
+    </script>
+</body>
+
+</html>
