@@ -10,6 +10,7 @@
         overflow: hidden;
         margin: 0px 0px;
       }
+
       .svg-container {
         display: flex;
         justify-content: center;
@@ -17,20 +18,45 @@
         height: 100vh;
         animation: myanime 5s ease-in-out alternate infinite;
       }
+
       @keyframes myanime {
         0% {
           background: rgba(55, 98, 186, 0.874);
         }
+
         50% {
           background: rgba(86, 193, 229, 0.874);
         }
+
         100% {
           background: rgba(99, 148, 244, 0.874);
         }
       }
+      .colorScheme {
+        position: absolute;
+        top: 1vh;
+        left: 1vw;
+        scale: 0.4;
+        box-shadow: 5px 5px 10px hsla(60, 6%, 19%, 0.772),
+          10px 10px 10px hsla(60, 6%, 19%, 0.772);
+        border-radius: 4rem;
+        -webkit-user-drag: none;
+        transition: all 0.2s ease-in-out;
+        visibility: visible;
+      }
+
+      .colorScheme:hover {
+        scale: 0.5;
+      }
     </style>
   </head>
+
   <body>
+    <img
+      class="colorScheme"
+      src="/images/color_scheme.png"
+      alt="color_scheme"
+    />
     <div class="svg-container">
       <svg id="pie-chart"></svg>
     </div>
@@ -96,7 +122,7 @@
             "#FF5733",
             "#8B4513",
             "#F5F5F5",
-            "#212121",
+            "#6EEB83",
           ]); //color scheme decided in create_svg.htm
 
         // Create pie layout
@@ -136,7 +162,7 @@
           .attr("transform", (d) => `translate(${arc.centroid(d)})`)
           .attr("text-anchor", "middle")
           .attr("dy", "0.35em")
-          .text((d) => `${d.data.category}:${d.data.value}`)
+          .text((d) => `${d.data.value}`)
           .style("fill", "grey");
       };
       getDataObject();

@@ -153,6 +153,7 @@
       text-align: center;
       padding: 0.7rem 3rem;
       border-radius: 1rem;
+      cursor: pointer;
     }
 
     .main {
@@ -192,6 +193,7 @@
       transition: all 0.2s ease;
       border: 1px solid lime;
       border-radius: 0.3rem;
+      cursor: pointer;
     }
 
     .buttonstack button:hover {
@@ -205,6 +207,7 @@
 
       scale: 1.1;
       border: 1px solid rgb(255, 54, 54);
+      cursor: pointer;
     }
 
     img {
@@ -288,7 +291,7 @@
     document
       .getElementById("All")
       .addEventListener("click", () => redirect("all"));
-    function handleLogout() {
+    async function handleLogout() {
       window.location.href = "/login";
     }
   </script>

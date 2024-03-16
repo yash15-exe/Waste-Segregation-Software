@@ -62,6 +62,8 @@
     async function addWaste() {
       const newElement = document.createElement("p");
       newElement.textContent = "Glass";
+
+      
       fetch("http://localhost:5000/addWaste", {
         method: "POST",
         headers: {

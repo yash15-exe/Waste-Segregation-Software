@@ -114,7 +114,7 @@
             flex-direction: column;
             position: absolute;
             top: 38vh;
-            gap: 2vw;
+            gap: 4vw;
             left: 32vw;
             visibility: visible;
         }
@@ -124,7 +124,7 @@
             flex-direction: column;
             position: absolute;
             top: 38dvh;
-            gap: 2vw;
+            gap: 4vw;
             right: 30vw;
             visibility: visible;
         }
@@ -203,7 +203,81 @@
         const random_waste =range.map(() => {
             return wasteTypes[Math.floor(Math.random() * wasteTypes.length)];
         });
-        console.log("Random waste: ",random_waste);
+   
+//Logic for adding data to the database depending upon its type
+async function addWasteFromArray(array){
+    
+const random_waste = array
+
+
+
+for (let index = 0; index < random_waste.length; index++) {
+
+if(random_waste[index]==="metal"){
+await fetch("http://localhost:5000/addWaste", {
+       method: "POST",
+       headers: {
+        "Content-Type": "application/json",
+       },
+       body: JSON.stringify({ type: 2 }),
+ })
+}
+
+if(random_waste[index]==="ewaste"){
+await fetch("http://localhost:5000/addWaste", {
+       method: "POST",
+       headers: {
+        "Content-Type": "application/json",
+       },
+       body: JSON.stringify({ type: 6 }),
+ })
+}
+
+if(random_waste[index]==="plastic"){
+await fetch("http://localhost:5000/addWaste", {
+       method: "POST",
+       headers: {
+        "Content-Type": "application/json",
+       },
+       body: JSON.stringify({ type: 4 }),
+ })
+}
+if(random_waste[index]==="wet"){
+ await fetch("http://localhost:5000/addWaste", {
+       method: "POST",
+       headers: {
+        "Content-Type": "application/json",
+       },
+       body: JSON.stringify({ type: 1 }),
+ })
+}
+if(random_waste[index]==="paper"){
+await fetch("http://localhost:5000/addWaste", {
+       method: "POST",
+       headers: {
+        "Content-Type": "application/json",
+       },
+       body: JSON.stringify({ type: 3 }),
+ })
+}
+
+ 
+}
+if(random_waste[index]==="wood"){
+await fetch("http://localhost:5000/addWaste", {
+       method: "POST",
+       headers: {
+        "Content-Type": "application/json",
+       },
+       body: JSON.stringify({ type: 5 }),
+ })
+}
+
+ 
+
+}
+
+addWasteFromArray(random_waste);
 
         function switchColor(d) {
             switch (d) {

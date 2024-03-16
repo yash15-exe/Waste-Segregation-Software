@@ -119,7 +119,6 @@ app.post("/data", (req, res) => {
   });
 });
 
-
 //Email Sending Mechanism//////////////////////////////////////////////////////////////////////////////
 mailBuddy(process.env.RECEIVER_EMAIL);
 app.post("/addWaste", (req, res) => {
@@ -134,8 +133,9 @@ app.post("/addWaste", (req, res) => {
   res.send(id);
 });
 
+
 //Activating the server//////////////////////////////////////////////////////////////////////////////////
 
-server.listen(process.env.PORT||5000, () => {
-  console.log(`Server listening on Port ${process.env.PORT||5000}`);
+server.listen(process.env.PORT || 5000, () => {
+  console.log(`Server listening on Port ${process.env.PORT || 5000}`);
 });
